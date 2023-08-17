@@ -230,9 +230,8 @@ const UserRegister = () => {
                     }
                     <div className="col-12 mt-4">
                       <div className="input-group d-flex justify-content-center">
-                        <button type="submit" className='btn  btn-success'>Submit</button>
-                        <button className='btn btn-secondary' style={{marginLeft:'20px'}} onClick={clearHandler}>Clear</button>
-                        <button className='btn btn-primary' style={{marginLeft:'20px'}} onClick={()=>navigate('/allUsers')}>Back</button>
+                        <button type="submit"  style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Submit</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear</button>
                       </div>
                     </div>
                   </div>

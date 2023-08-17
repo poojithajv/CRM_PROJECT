@@ -114,7 +114,7 @@ function SalesPersonDashboard() {
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleAllTasks}>All Tasks</p>
+                onClick={handleAllTasks}>My Tasks</p>
               <p className={
                   activeTab === "contactInfo"
                     ? `${activeClassName} `
@@ -146,9 +146,9 @@ function SalesPersonDashboard() {
               >
                 <ul className="mobile-hamburger-menu">
                   <li className="header-navbar-link" onClick={() => handleDashboard()}>Dashboard Metrics</li>
-                  <li className="header-navbar-link" onClick={() => handleInfo()}>User</li>
-                  <li className="header-navbar-link" onClick={() => handleAllTasks()}>Contact</li>
-                  <li className="header-navbar-link" onClick={() => handleContactInfo()}>Task</li>
+                  <li className="header-navbar-link" onClick={() => handleInfo()}>My Info</li>
+                  <li className="header-navbar-link" onClick={() => handleAllTasks()}>My Tasks</li>
+                  <li className="header-navbar-link" onClick={() => handleContactInfo()}>Contact Details</li>
                   <li className="header-navbar-link" onClick={handleLogout}>Logout</li>
                 </ul>
               </Popup>

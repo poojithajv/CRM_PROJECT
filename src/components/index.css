@@ -20,6 +20,11 @@
     flex-direction: column;
     margin: 30px;
 }
+@media screen and (max-width:768px){
+  .users-container{
+    width:60vw;
+  }
+}
 .table{
     background-color: #ffffff;
     width:100%;
@@ -57,9 +62,15 @@
 .input-search{
     width:150px;
 }
-@media screen and (max-width:768px) {
+.select{
+  width:20vw;
+}
+@media screen and (max-width:900px) {
     .search-container{
         flex-direction: column;
+    }
+    .select{
+      width:45vw;
     }
 }
 .search-cont{
@@ -69,6 +80,7 @@
     align-items: center;
     margin-bottom: 20px;
 }
+
 .dashboard-container{
     display: flex;
     flex-direction: column;
@@ -107,6 +119,14 @@
   margin-top: 20px;
   margin-bottom: 25px;
   margin-right: 20px;
+  transition: border-color 0.66s ease-out, font-size 0.3s ease-out;
+}
+.desktop-header-list{
+  position: relative;
+    color: white;
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 20px;
   transition: border-color 0.66s ease-out, font-size 0.3s ease-out;
 }
 .mobile-header-navbar-container{
@@ -168,9 +188,16 @@
     flex-direction: row;
   }
   .custom-navbar {
-    height:90vh;
+    position: absolute;
+    height:100%;
+    bottom: 0;
     background-color: #aed25d;
     width: 12vw;
+  }
+  @media screen and (max-width:768px){
+    .custom-navbar{
+      width:20vw;
+    }
   }
   .statuses-container{
     display: flex;
@@ -187,9 +214,34 @@
   padding: 15px;
   border-radius: 12px;
   box-shadow: 3px 3px 3px 3px lightgray;
-  width: 400px;
+  width: 40vw;
   text-align: center;
   }
+  .status-container1{
+    margin-top: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 3px 3px 3px 3px lightgray;
+    width: 50vw;
+    text-align: center;
+    }
+  @media screen and (max-width:768px){
+    .status-container{
+      width:60vw;
+    }
+    .status-container1{
+      width:80vw;
+    }
+  }
+  @media  screen and (max-width:395px) {
+    .details-container{
+      margin-top: 150px;
+    }
+  }
+  
   .sub-id{
     font-size: 20px;
     text-align: center;
@@ -336,7 +388,31 @@ li:hover {
   background-color: rgba(0, 0, 0, 0.14);
   cursor: pointer;
 }
-
+@media screen and (max-width:300px) {
+  .head{
+    font-size: 20px;
+  }
+  .status-container{
+    margin: 0px;
+    width:65vw;
+  }
+  .th{
+    margin-bottom: 0px;
+    word-break: 40%;
+  }
+  .td{
+    margin-bottom: 0px;
+    word-break: 70%;
+  }
+  .update-sales{
+    font-size: 18px;
+  }
+  .label{
+    margin-left: -30px;
+    font-size: 14px;
+    width:150px;
+  }
+}
 
 
 

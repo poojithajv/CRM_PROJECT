@@ -283,7 +283,7 @@ function AllUsers() {
   return (
     <div className='sidenav-users-container'>
       <div  >
-        <Navbar expand="lg" className="flex-column custom-navbar">
+        <Navbar className="flex-column custom-navbar">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="flex-column">
@@ -305,8 +305,8 @@ function AllUsers() {
         <div className='headings'>
             <h1 className='main-heading'>All Users</h1>
             <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-            <h2 style={{marginRight:'10px'}} className='sub-heading'>Add User</h2>
-            <h2 onClick={()=>navigate('/update_user',{state:dat})} className='sub-heading'>Update User</h2>
+            {/* <h2 style={{marginRight:'10px'}} className='sub-heading'>Add User</h2>
+            <h2 onClick={()=>navigate('/update_user',{state:dat})} className='sub-heading'>Update User</h2> */}
             </div>
         </div>
         {/* <div className='search-container'>
@@ -363,7 +363,7 @@ function AllUsers() {
         </div> */}
         <div className='search-container'>
            <div className='search-cont'>
-            <select value={selectedRole} onChange={(e)=>setSelectedRole(e.target.value)} >
+            <select  className='select' value={selectedRole} onChange={(e)=>setSelectedRole(e.target.value)} >
               <option value='' >Select Role</option>
               {roles.map((item,index)=>
                 <option  key={index}>{item}</option>
@@ -374,7 +374,7 @@ function AllUsers() {
             </button>
           </div>
           <div className='search-cont'>
-            <select value={selectedName} onChange={(e)=>setSelectedName(e.target.value)}>
+            <select className='select' value={selectedName} onChange={(e)=>setSelectedName(e.target.value)}>
               <option key='nam'>Select Name</option>
               {names.map((item,index)=>
                 <option key={index}>{item}</option>
@@ -385,7 +385,7 @@ function AllUsers() {
             </button>
           </div> 
           <div className='search-cont'>
-            <select value={selectedManager} onChange={(e)=>setSelectedManager(e.target.value)}>
+            <select className='select' value={selectedManager} onChange={(e)=>setSelectedManager(e.target.value)}>
               <option key='manager'>Select Manager Name</option>
               {managers.map((item,index)=>
                 <option value={item[0]}key={index[0]}>{item[0]} -- {item[1]}</option>

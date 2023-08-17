@@ -24,7 +24,7 @@ function SalesPersonContactDetails() {
   return (
     <div className='details-container'>
       <h1 className='contact-heading'>Contact Details</h1>
-      <div className='status-container' >
+      <div className='status-container1' >
             <h2 className='sub-id'>Contact Id: {data.contactId}</h2>
             <div>
               <div className="table-data">
@@ -32,47 +32,47 @@ function SalesPersonContactDetails() {
                 <p className="td">{data.firstName}</p>
               </div>
               <div className="table-data">
-                <p>Last Name</p>
+                <p className="th">Last Name</p>
                 <p className="td">{data.lastName}</p>
               </div>
               <div className="table-data">
-                <p>Address</p>
+                <p className="th">Address</p>
                 <p className="td">{data.address}</p>
               </div>
               <div className="table-data">
-                <p>Company</p>
+                <p className="th">Company</p>
                 <p className="td">{data.company}</p>
               </div>
               <div className="table-data">
-                <p>Webiste URL</p>
+                <p className="th">Webiste URL</p>
                 <p className="td">{data.websiteURL}</p>
               </div>
               <div className="table-data">
-                <p>Mobile Number</p>
+                <p className="th">Mobile Number</p>
                 <p className="td">{data.mobileNumber}</p>
               </div>
               <div className="table-data">
-                <p>Contact Created On</p>
+                <p className="th">Contact Created On</p>
                 <p className="td">{data.date}</p>
               </div>
               <div className="table-data">
-                <p>Contact Department</p>
+                <p className="th">Contact Department</p>
                 <p className="td">{data.contactDepartment}</p>
               </div>
               <div className="table-data">
-                <p>Contact Destination</p>
+                <p className="th">Contact Destination</p>
                 <p className="td">{data.contactDestination}</p>
               </div>
               <div className="table-data">
-                <p>Source</p>
+                <p className="th">Source</p>
                 <p className="td">{data.otherSourcetype==='' ? data.source : data.otherSourcetype}</p>
               </div>
               <div className="table-data">
-                <p>Life Cycle Stage</p>
+                <p className="th">Life Cycle Stage</p>
                 <p className="td">{data.lifeCycleStage}</p>
               </div>
               <div className="table-data">
-                <p>Life Cycle Stage Date</p>
+                <p className="th">Life Cycle Stage Date</p>
                 <p className="td">{data.stageDate}</p>
               </div>
             </div>

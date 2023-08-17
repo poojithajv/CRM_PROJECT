@@ -3,30 +3,56 @@ import api from './../util/api'
 import toast from 'react-hot-toast';
 import { useNavigate, Link,useLocation } from 'react-router-dom';
 
+
+const initialState = { userName: '', role: '',statusValue:'', reportingUsrId: '', reportingUsrName: '' }
+
 const EditUser = ({data}) => {
-  const [user, setUser] = useState(data)
+  const [user, setUser] = useState(initialState)
+  const [reportingToUsers, setReportingToUsers] = useState(null)
+  const [extUsers, setExtUsers] = useState(null)
   console.log(user)
   const [userData,setUserData]=useState({
+    userId:user.userId,
     userName:user.userName,
-    role:{
-      statusValue:user.role
-    },
-    status:{
-      statusValue:user.statusValue
-    }
+    reportingUsrId:user.reportingUsrId,
+    reportingUsrName:user.reportingUsrName,
+    role:user.role,
+    statusValue:user.statusValue
   })
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    const initialFetch = async () => {
+      try {
+        await api.get(`/api/getDtoById/${data?.userId}`)
+          .then(res => {
+            const { role, statusValue,userName, reportingUsrId, reportingUsrName } = res.data
+            setUser({ ...user, userName, role, statusValue, reportingUsrId, reportingUsrName })
+            console.log(res.data);
+          }).catch(err => console.log(err))
+        await api.get('/api/getAllUsersNDtos')
+          .then(res => {
+            // console.log(res.data);
+            setExtUsers(res.data)
+            setReportingToUsers(res.data)
+          }).catch(err => console.log(err.message))
+      }
+      catch (error) {
+        console.log(error.message);
+      }
+    }
+    initialFetch()
+  }, [])
+
   // function to update user details in state
   const changeHandler = (e) => {
     const { name, value } = e.target
-    console.log(name)
-    if (name!=='statusValue'){
-      setUserData({ ...userData, [name]: value })
-    }else if (name==='statusValue'){
-      setUserData({ ...userData, status: { ...userData.status, [name]: value } })
+    setUser({ ...user, [name]: value })
+    if (value !== 'SalesPerson') {
+      setReportingToUsers(extUsers.filter(item => item.role !== 'SalesPerson'))
     }
+    else setReportingToUsers(extUsers)
   }
   console.log(userData)
 
@@ -41,16 +67,15 @@ const EditUser = ({data}) => {
   const submitHandler = async (e) => {
     try {
       e.preventDefault()
-      const userResponse = await api.put(`/api/updateUser/${userData.userId}`,userData)
+      const userResponse = await api.put(`/api/updateByAdmin/${data?.userId}/${user?.role}/${user?.reportingUsrId}`)
       if (userResponse.status === 200) {
         console.log(userResponse.data);
       }
-      const userRes = await api.put(`/api/updateStatus/${userData.userId}/${userData.status.statusValue}`,userData)
+      const userRes = await api.put(`/api/updateStatus/${data?.userId}/${user?.statusValue}`)
       if (userRes.status === 200) {
         console.log(userRes.data);
       }
       toast.success('User Updated successfully')
-      navigate('/allUsers')
     } catch (error) {
       console.log(error.message);
     }
@@ -58,7 +83,7 @@ const EditUser = ({data}) => {
 
   return (
     <div>
-      <div className="container" style={{width:'90vw'}}>
+      <div className="container" style={{width:'80vw'}}>
         <div className="row d-flex justify-content-center">
           <div className="col-10"> 
             <div className="card mt-5">
@@ -72,32 +97,49 @@ const EditUser = ({data}) => {
                     <div className="col-md-6 mt-3">
                       <div className="form-group">
                         <label htmlFor="userName">User Name <span className='required'>*</span></label>
-                        <input type="text" name="userName" id="userName" value={userData.userName} onChange={changeHandler} className='form-control' pattern='[A-Z a-z]{3,}' title="Name should contain alphabets only and minimum three characters" />
+                        <input type="text" name="userName" id="userName" value={user.userName} onChange={changeHandler} className='form-control' pattern='[A-Z a-z]{3,}' title="Name should contain alphabets only and minimum three characters" />
                       </div>
                       <div className='form-group mt-3'>
                       <label htmlFor="statusValue">Status <span className='required'>*</span></label>
-                        <select value={userData.status.statusValue==='active' || userData.status.statusValue==='Active'  ? 'Active' : 'DeActive'} onChange={changeHandler} name="statusValue" className="form-select" required>
-                          <option hidden>{userData.status.statusValue==='active' || userData.status.statusValue==='Active'  ? 'Active' : 'DeActive'}</option>
+                        <select value={user.statusValue==='active' || user.statusValue==='Active'  ? 'Active' : 'DeActive'} onChange={changeHandler} name="statusValue" className="form-select" required>
+                          <option hidden>{user.statusValue==='active' || user.statusValue==='Active'  ? 'Active' : 'DeActive'}</option>
                           <option value="active">Active</option>
                           <option value="deactive">DeActive</option>
                         </select>
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="form-group mt-3" >
-                        <label htmlFor="mobileNo">Mobile Number <span className='required'>*</span></label>
-                        <input type="text" name="mobileNo" id="mobileNo" value={userData.mobileNo} onChange={changeHandler} className='form-control' pattern='[6-9]\d{9}' title='Please enter valid mobileNo number' required />
-                      </div>
+                    <div className="form-group mt-3">
+                      <label htmlFor="reportingUsrId">Reporting_To <span className='required'>*</span></label>
+                        <select onChange={changeHandler} className="form-select" name='reportingUsrId' id='reportingUsrId' required>
+                          <option value="" hidden>{user.reportingUsrName} -- {user.reportingUsrId}</option>
+                          {
+                            reportingToUsers && reportingToUsers.map(user => {
+                              return (
+                                <option key={user.userId} value={user.userId}>{user.userName} -- {user.userId} -- {user.role} </option>
+                              )
+                            })
+                          }
+                        </select>
+                        </div>
                       <div className="form-group mt-3">
-                        <label htmlFor="altMobileNo">Alt Mobile Number</label>
-                        <input type="text" name="altMobileNo" id="altMobileNo" value={userData.altMobileNo} onChange={changeHandler} className='form-control' pattern='[6-9]\d{9}' title='Please enter valid mobileNo number' />
+                      <label htmlFor="role">Role <span className='required'>*</span></label>
+                      <select onChange={changeHandler} name="role" className="form-select" required>
+                        <option value="" hidden>{user.role}</option>
+                        <option value="Administrator">Administrator</option>
+                        <option value="Marketing User">Marketing User</option>
+                        <option value="Marketing Manager">Marketing Manager</option>
+                        <option value="SalesPerson">Sales Person</option>
+                        <option value="Sales Manager">Sales Manager</option>
+                        <option value="Supporting Manager">Supporting Manager</option>
+                        <option value="Restricted User">Restricted User</option>
+                      </select>
                       </div>
                     </div>
                     <div className="col-12 mt-4">
                       <div className="input-group d-flex justify-content-center">
-                        <button type="submit" className='btn  btn-success'>Submit</button>
-                        <button className='btn btn-secondary' style={{marginLeft:'20px'}} onClick={clearHandler}>Clear</button>
-                        <button className='btn btn-primary' style={{marginLeft:'20px'}} onClick={()=>navigate('/allUsers')}>Back</button>
+                        <button type="submit" style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Update</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear</button>
                       </div>
                     </div>
                   </div>

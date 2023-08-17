@@ -279,7 +279,7 @@ function AllContacts() {
   return (
     <div className='sidenav-users-container'>
       <div  >
-      <Navbar expand="lg" className="flex-column custom-navbar">
+      <Navbar className="flex-column custom-navbar">
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="flex-column">

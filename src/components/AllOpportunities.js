@@ -33,9 +33,25 @@ function AllOpportunities() {
             console.log(error.message);
           }
     },[])
+    let allOpp=[]
+    if (opportunitiesData && opportunitiesSubData) {
+      for (let i=0;i<opportunitiesData.length;i++) {
+        for (let j=0;j<opportunitiesSubData.length;j++){
+          if (opportunitiesData[i]?.opportunityId?.slice(opportunitiesData[i]?.opportunityId?.length-2,)===opportunitiesSubData[j]?.opportunitySubId?.slice(opportunitiesSubData[j]?.opportunitySubId?.length-2,)){
+            allOpp[i]={...opportunitiesData[i],...opportunitiesSubData[j]}
+            break
+          }else{
+            allOpp[i]={...opportunitiesData[i]}
+          }
+        }
+        
+        // allOpp[i] = { ...opportunitiesData[i], ...opportunitiesSubData[i] }
+      }
+    }
+    console.log(allOpp)
 
-    const data=[...opportunitiesData,...opportunitiesSubData].map((item,index)=>({...item,id:index+1,contactName:item.contact.firstName+item.contact.lastName,opportunityType:item.status.statusValue,
-    contactEmail:item.contact.email,offeringName:item.offering.offeringName,offeringValidDate:item.offering.validTillDate}))
+    const data=allOpp.map((item,index)=>({...item,id:index+1,contactName:item?.contact?.firstName+item?.contact?.lastName,opportunityType:item?.status?.statusValue,
+    contactEmail:item?.contact?.email,offeringName:item?.offering?.offeringName,offeringValidDate:item?.offering?.validTillDate}))
     console.log(data)
 
     const columns = [
@@ -131,7 +147,7 @@ function AllOpportunities() {
             cellClassName: "table-cell",
           },
           {
-            field: "noOfInstallments",
+            field: "noOfInstallements",
             headerName: "No of Installments",
             width: 120,
             headerClassName: "table-header",

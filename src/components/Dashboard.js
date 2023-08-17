@@ -273,12 +273,16 @@ function Dashboard() {
                 }
                 onClick={handleCustomer}>Customer</p>
               {/* <p className='desktop-header-navbar-link' >Logout</p> */}
-              <p onClick={handleIcon} className='desktop-header-navbar-link'><IoIosContact  size={20}/></p>
+              <p onClick={handleIcon} className={
+                  activeTab === "profile"
+                    ? `${activeClassName}`
+                    : "desktop-header-navbar-link"
+                }><IoIosContact  size={20}/></p>
               {profile && (
                 <nav className="dropdown" ref={dropRef} onClick={()=>setProfile(!profile)}>
                   <ul>
-                    <li onClick={handleProfile} className={activeTab === "profile"? `${activeClassName} `: "desktop-header-navbar-link"}>Profile</li>
-                    <li onClick={handleLogout}>Logout</li>
+                    <li onClick={handleProfile} className={activeTab === "profile"? `${activeClassName} `: "desktop-header-list"}>Profile</li>
+                    <li className='desktop-header-list' onClick={handleLogout}>Logout</li>
                   </ul>
                 </nav>
               )}
@@ -320,7 +324,7 @@ function Dashboard() {
       </div>
       )}
       
-      {isDashboard && <SalesPersonDashboard />}
+      {/* {isDashboard && <Dashboard />} */}
       {isUser && <AllUsers />}
       {isContact && <AllContacts />}
       {isTask && <AllTasks />}

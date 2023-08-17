@@ -43,12 +43,12 @@ function SalesPersonInfo({salesPersonId}) {
   return (
     <div className='sidenav-users-container'>
     <div>
-        <Navbar expand="lg" className="flex-column custom-navbar">
+        <Navbar className="flex-column custom-navbar">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="flex-column">
             <Nav.Link onClick={handleAllInfo}>
-              All Info
+              My Info
             </Nav.Link>
             <Nav.Link onClick={handleUpdateinfo} >
               Update Info
@@ -70,39 +70,39 @@ function SalesPersonInfo({salesPersonId}) {
                   <p className="td">{data.userName}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Email</p>
+                  <p className="th">Email</p>
                   <p className="td">{data.email}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Mobile Number</p>
+                  <p className="th">Mobile Number</p>
                   <p className="td">{data.mobileNo}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Alternate Mobile Number</p>
+                  <p className="th">Alternate Mobile Number</p>
                   <p className="td">{data.altMobNo}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Role</p>
+                  <p className="th">Role</p>
                   <p className="td">{data.role}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Target</p>
+                  <p className="th">Target</p>
                   <p className="td">{data.target}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Frequency</p>
+                  <p className="th">Frequency</p>
                   <p className="td">{data.frequency}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Currency</p>
+                  <p className="th">Currency</p>
                   <p className="td">{data.currency}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Amount</p>
+                  <p className="th">Amount</p>
                   <p className="td">{data.amount}</p>
                 </div>
                 <div className="table-data1">
-                  <p>Duration</p>
+                  <p className="th">Duration</p>
                   <p className="td">{data.duration}</p>
                 </div>
           </div>
