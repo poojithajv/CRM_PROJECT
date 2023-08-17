@@ -9,6 +9,7 @@ import logo from './kloc-white-logo.png'
 import api from './../util/api'
 import './index.css'
 import SalesPersonContactDetails from './SalesPersonContactDetails';
+import CreateContact from './CreateContact';
 
 const activeClassName = "activeTab";
 function SalesPersonDashboard() {
@@ -19,6 +20,7 @@ function SalesPersonDashboard() {
   const [isInfo,setIsInfo]=useState(false)
   const [isAllTasks,setIsAllTasks]=useState(false)
   const [isContactInfo,setIsConatctInfo]=useState(false)
+  const [isCreateContact,setIsCreateContact]=useState(false)
   const [activeTab, setActiveTab] = useState("");
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [salesPersonId,setSalesPersonId]=useState('')
@@ -60,6 +62,7 @@ function SalesPersonDashboard() {
     setIsInfo(false)
     setIsAllTasks(false)
     setIsConatctInfo(false)
+    setIsCreateContact(false)
     setActiveTab("dashboard");
   };
   const handleInfo = () => {
@@ -67,6 +70,7 @@ function SalesPersonDashboard() {
     setIsInfo(true)
     setIsAllTasks(false)
     setIsConatctInfo(false)
+    setIsCreateContact(false)
     setActiveTab("info");
   };
   const handleAllTasks = () => {
@@ -74,6 +78,7 @@ function SalesPersonDashboard() {
     setIsInfo(false)
     setIsAllTasks(true)
     setIsConatctInfo(false)
+    setIsCreateContact(false)
     setActiveTab("allTasks");
   };
   const handleContactInfo = () => {
@@ -81,8 +86,17 @@ function SalesPersonDashboard() {
     setIsInfo(false)
     setIsAllTasks(false)
     setIsConatctInfo(true)
+    setIsCreateContact(false)
     setActiveTab("contactInfo");
   };
+  const handleCreateContact=()=>{
+    setIsDashboard(false)
+    setIsInfo(false)
+    setIsAllTasks(false)
+    setIsConatctInfo(false)
+    setIsCreateContact(true)
+    setActiveTab("createContact");
+  }
   return (
     <div onClick={changeCursor} style={{ cursor: cursor }} className='dashboard-container'>
       <div className="header-container">
@@ -115,6 +129,12 @@ function SalesPersonDashboard() {
                     : "desktop-header-navbar-link"
                 }
                 onClick={handleAllTasks}>My Tasks</p>
+                <p className={
+                  activeTab === "createContact"
+                    ? `${activeClassName} `
+                    : "desktop-header-navbar-link"
+                }
+                onClick={handleCreateContact}>Create Contact</p>
               <p className={
                   activeTab === "contactInfo"
                     ? `${activeClassName} `
@@ -148,6 +168,7 @@ function SalesPersonDashboard() {
                   <li className="header-navbar-link" onClick={() => handleDashboard()}>Dashboard Metrics</li>
                   <li className="header-navbar-link" onClick={() => handleInfo()}>My Info</li>
                   <li className="header-navbar-link" onClick={() => handleAllTasks()}>My Tasks</li>
+                  <li className="header-navbar-link" onClick={() => handleCreateContact()}>Create Contact</li>
                   <li className="header-navbar-link" onClick={() => handleContactInfo()}>Contact Details</li>
                   <li className="header-navbar-link" onClick={handleLogout}>Logout</li>
                 </ul>
@@ -162,6 +183,9 @@ function SalesPersonDashboard() {
       )}
       {isContactInfo && (
         <SalesPersonContactDetails />
+      )}
+      {isCreateContact && (
+        <CreateContact />
       )}
     </div>
   )

@@ -57,6 +57,7 @@ const Login = () => {
 				// console.log(response.data);
 				localStorage.setItem('token', response.data.jwtToken)
 				localStorage.setItem('userEmail',user.email)
+				localStorage.setItem('userId',response.data.userId)
 				console.log(response)
 				toast.success('Login successful')
 				if (response.status===200){

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 import {Navigate, useNavigate,Link} from 'react-router-dom'
 import { Navbar, Nav } from "react-bootstrap";
 import { DataGrid } from "@mui/x-data-grid";
+import CreateContact from './CreateContact'
+import UpdateContact from './UpdateContact';
 import api from './../util/api'
 import './index.css'
 
 function AllContacts() {
   const navigate=useNavigate()
+  const [dat,setDat]=useState([])
     const [contactData,setContactData]=useState([])
     const [managerData,setManagerData]=useState([])
     const [selectedRow,setSelectedRow]=useState([])
@@ -222,44 +225,10 @@ function AllContacts() {
             //   </div>
             // ),
           },
-         // {
-         //   field: "Update",
-         //   headerName: "Update User",
-         //   width: 100,
-         //   headerClassName: "table-header",
-         //   cellClassName: "table-cell",
-         //   sortable: false,
-         //   renderCell: (params) => (
-         //     <button
-         //       className="button1"
-         //       onClick={() => navigate("/update_user", { state: params.row })}
-         //       style={{ padding: "3px", width: "60px" }}
-         //     >
-         //       Update
-         //     </button>
-         //   ),
-         // },
-        //  {
-        //    field: "View",
-        //    headerName: "View Data",
-        //    width: 100,
-        //    headerClassName: "table-header",
-        //    cellClassName: "table-cell",
-        //    sortable: false,
-        //    renderCell: (params) => (
-        //      <button
-        //        className="button1"
-        //        onClick={() => navigate("/managerWiseData", { state: params.row})}
-        //        style={{ padding: "3px", width: "60px" }}
-        //      >
-        //        View
-        //      </button>
-        //    ),
-        //  },
        ];
        const onRowHandleClick=(params)=>{
         setSelectedRow(params.id)
-        // setDat(params.row)
+        setDat(params.row)
       }
       const handleIsCreateContact=()=>{
         setIsAllContacts(false)
@@ -276,6 +245,7 @@ function AllContacts() {
         setIsCreateContact(false)
         setIsUpdateContact(false)
       }
+      console.log(dat)
   return (
     <div className='sidenav-users-container'>
       <div  >
@@ -296,7 +266,7 @@ function AllContacts() {
       </Navbar.Collapse>
     </Navbar>
         </div>
-        {isAllContacts && (
+      {isAllContacts && (
         <div className='users-container'>
         <div className='headings'>
             <h1 className='main-heading'>All Contacts</h1>
@@ -413,6 +383,12 @@ function AllContacts() {
             )}
         </div>
     </div>
+      )}
+      {isCreateContact && (
+        <CreateContact />
+      )}
+      {isUpdateContact && (
+        <UpdateContact contact={dat}/>
       )}
     </div>
   )

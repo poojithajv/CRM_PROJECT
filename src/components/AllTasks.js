@@ -8,6 +8,7 @@ import CreateTask from './CreateTask'
 import './index.css'
 import TaskLatestStatus from './TaskLatestStatus';
 import UpdateTask from './UpdateTask'
+import ChangeSalesPerson from './ChangeSalesPerson';
 
 function AllTasks() {
     const [contactData,setContactData]=useState([])
@@ -17,6 +18,7 @@ function AllTasks() {
     const [isAllTaskStatus,setIsAllTaskStatus]=useState(false)
     const [isTaskLatest,setIsTaskStatus]=useState(false)
     const [isUpdateTask,setIsUpdateTask]=useState(false)
+    const [isChangeSalesPerson,setIsChangeSalesPerson]=useState(false)
     const [taskId,setTaskId]=useState('')
     const [selectedRow,setSelectedRow]=useState([])
     const [selectedManager,setSelectedManager]=useState('')
@@ -137,6 +139,7 @@ function AllTasks() {
       setIsTaskStatus(false)
       setIsAllTaskStatus(false)
       setIsUpdateTask(false)
+      setIsChangeSalesPerson(false)
     }
     const handleAllTasks=()=>{
       setIsAllTasks(true)
@@ -144,6 +147,7 @@ function AllTasks() {
       setIsTaskStatus(false)
       setIsAllTaskStatus(false)
       setIsUpdateTask(false)
+      setIsChangeSalesPerson(false)
     }
     const handleTaskStatusHistory=async()=>{
       setIsAllTasks(false)
@@ -151,7 +155,7 @@ function AllTasks() {
       setIsAllTaskStatus(true)
       setIsTaskStatus(false)
       setIsUpdateTask(false)
-      
+      setIsChangeSalesPerson(false)
     }
     const handleLatestStatus=()=>{
       setIsAllTasks(false)
@@ -159,6 +163,7 @@ function AllTasks() {
       setIsAllTaskStatus(false)
       setIsTaskStatus(true)
       setIsUpdateTask(false)
+      setIsChangeSalesPerson(false)
     }
     const handleUpdateTask=()=>{
       setIsAllTasks(false)
@@ -166,12 +171,22 @@ function AllTasks() {
       setIsAllTaskStatus(false)
       setIsTaskStatus(false)
       setIsUpdateTask(true)
+      setIsChangeSalesPerson(false)
+    }
+
+    const handleChangeSalesPerson=()=>{
+      setIsAllTasks(false)
+      setIsCreateTask(false)
+      setIsAllTaskStatus(false)
+      setIsTaskStatus(false)
+      setIsUpdateTask(false)
+      setIsChangeSalesPerson(true)
     }
     console.log(statusData)
   return (
     <div className='sidenav-users-container'>
       <div  >
-        <Navbar expand="lg" className="flex-column custom-navbar">
+        <Navbar  className="flex-column custom-navbar">
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="flex-column">
@@ -190,6 +205,9 @@ function AllTasks() {
           <Nav.Link onClick={handleUpdateTask}>
             Update Task
           </Nav.Link>
+          <Nav.Link onClick={handleChangeSalesPerson}>
+            Change SalesPerson
+          </Nav.Link>
           </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -203,70 +221,7 @@ function AllTasks() {
             <h2 onClick={()=>navigate('/update_user',{state:dat})} className='sub-heading'>Update User</h2> */}
             </div>
         </div>
-        {/* <div className='search-container'>
-          <label htmlFor='searchRole' className='searchLabel'>Search By Role:
-          <input
-              id="searchRole"
-              name="searchRole"
-              value={search.searchRole}
-              type="text"
-              placeholder='Enter Role'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-          <label htmlFor='searchId' className='searchLabel'>Search By ID:
-          <input
-              id="searchId"
-              name="searchId"
-              value={search.searchId}
-              type="text"
-              placeholder='Enter ID'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-          <label htmlFor='searchName' className='searchLabel'>Search By Name:
-          <input
-              id="searchName"
-              name="searchName"
-              value={search.searchName}
-              type="text"
-              placeholder='Enter Name'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-        </div> */}
-        {/* <div className='search-container'>
-          <select value={search} onChange={handleSearch}>
-            <option value=''>Select</option>
-            <option value='searchByRole'>Search By Role</option>
-            <option value='searchByUserName'>Search By User Name</option>
-            <option value='searchByManager'>Search By Manager</option>
-          </select>
-        </div> */}
         <div className='search-container'>
-          {/* <div className='search-cont'>
-            <select value={selectedName} onChange={(e)=>setSelectedName(e.target.value)}>
-              <option key='nam'>Select Name</option>
-              {names.map((item,index)=>
-                <option key={index}>{item}</option>
-              )}
-            </select>
-            <button type="button" onClick={handleNameRecords}>
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div> */}
           <div className='search-cont'>
             <select value={selectedManager} onChange={(e)=>setSelectedManager(e.target.value)}>
               <option key='manager'>Select Manager Name</option>
@@ -313,6 +268,10 @@ function AllTasks() {
       {isUpdateTask && (
         <UpdateTask taskId={taskId} />
       )}
+      {isChangeSalesPerson && (
+        <ChangeSalesPerson taskId={taskId} />
+      )}
+
     </div>
   )
 }
