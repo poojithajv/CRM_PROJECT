@@ -89,11 +89,11 @@ const Login = () => {
 						<div className="card-body">
 							<form onSubmit={submitHandler} className='user_form'>
 								<div className="form-group mt-3">
-									<label htmlFor="email">Email <span>*</span></label>
+									<label htmlFor="email">Email <span className='required'>*</span></label>
 									<input type="email" name="email" id="email" value={user.email} onChange={changeHandler} className='form-control' pattern='[a-z0-9._%+\-]+@[a-z0-9\-]+\.(in|com)$' title="Please enter valid email address" required />
 								</div>
 								<div className="form-group mt-3">
-									<label htmlFor="password">Password <span>*</span></label>
+									<label htmlFor="password">Password <span className='required'>*</span></label>
 									<input type="password" name="password" id="password" value={user.password} onChange={changeHandler} className='form-control' required />
 									<span type='button' onClick={() => showPassword('password')}><i id='eye-symbol' className="bi bi-eye-fill"></i></span>
 								</div>

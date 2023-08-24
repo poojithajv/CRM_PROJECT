@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import api from './../util/api'
 import toast from 'react-hot-toast';
+import AllUsers from './AllUsers';
 import { useNavigate, Link,useLocation } from 'react-router-dom';
 
 
-const initialState = { userName: '', role: '',statusValue:'', reportingUsrId: '', reportingUsrName: '' }
+const initialState = { userId:'',userName: '', role: '',statusValue:'', reportingUsrId: '', reportingUsrName: '' }
 
-const EditUser = ({data}) => {
+const EditUser = () => {
+  const data=JSON.parse(localStorage.getItem('userRow'))
+  console.log(data)
   const [user, setUser] = useState(initialState)
+  const [isUpdated,setIsUpdated]=useState(false)
   const [reportingToUsers, setReportingToUsers] = useState(null)
   const [extUsers, setExtUsers] = useState(null)
   console.log(user)
@@ -27,8 +31,8 @@ const EditUser = ({data}) => {
       try {
         await api.get(`/api/getDtoById/${data?.userId}`)
           .then(res => {
-            const { role, statusValue,userName, reportingUsrId, reportingUsrName } = res.data
-            setUser({ ...user, userName, role, statusValue, reportingUsrId, reportingUsrName })
+            const { userId,role, statusValue,userName, reportingUsrId, reportingUsrName } = res.data
+            setUser({ ...user, userName, role, statusValue, reportingUsrId, reportingUsrName,userId })
             console.log(res.data);
           }).catch(err => console.log(err))
         await api.get('/api/getAllUsersNDtos')
@@ -50,7 +54,7 @@ const EditUser = ({data}) => {
     const { name, value } = e.target
     setUser({ ...user, [name]: value })
     if (value !== 'SalesPerson') {
-      setReportingToUsers(extUsers.filter(item => item.role !== 'SalesPerson'))
+      setReportingToUsers(extUsers?.filter(item => item.role !== 'SalesPerson'))
     }
     else setReportingToUsers(extUsers)
   }
@@ -76,6 +80,7 @@ const EditUser = ({data}) => {
         console.log(userRes.data);
       }
       toast.success('User Updated successfully')
+      window.location.reload()
     } catch (error) {
       console.log(error.message);
     }
@@ -83,10 +88,10 @@ const EditUser = ({data}) => {
 
   return (
     <div>
-      <div className="container" style={{width:'80vw'}}>
+      <div className="container" >
         <div className="row d-flex justify-content-center">
-          <div className="col-10"> 
-            <div className="card mt-5">
+          <div className="col-12"> 
+            <div className="card mt-5" style={{height:'70vh',overflowY:'scroll'}}>
               <div className="card-header">
                 <h2 className='text-info'>Update User </h2>
               </div>
@@ -140,6 +145,7 @@ const EditUser = ({data}) => {
                       <div className="input-group d-flex justify-content-center">
                         <button type="submit" style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Update</button>
                         <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>Back</button>
                       </div>
                     </div>
                   </div>

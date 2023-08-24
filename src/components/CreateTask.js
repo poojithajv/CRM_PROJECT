@@ -3,20 +3,18 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-// import { Head } from "../Header/header";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 import toast from "react-hot-toast";
 import "./index.css";
-// import TaskHead from "../TaskHead";
-import { DatePicker } from "@mui/x-date-pickers";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker, MobileDatePicker } from "@mui/x-date-pickers";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs"; // Import the Dayjs library
-// ...
+import { useNavigate } from "react-router-dom";
 const blue = {
   100: "#DAECFF",
   200: "#B6DAFF",
@@ -67,7 +65,8 @@ const StyledTextarea = styled(TextareaAutosize)(
   }
 `
 );
-const Createtask = () => {
+const Res = () => {
+  const navigate=useNavigate()
   const [allContacts, setAllContacts] = useState([]);
   const [allSalesPersons, setAllSalesPersons] = useState([]);
   const [allUser, setAllUsers] = useState([]);
@@ -101,13 +100,7 @@ const Createtask = () => {
             (authority) => authority.authority === "SalesPerson"
           );
         });
-        const filteredUser = filteredUsers.filter((user) => {
-            return !user.authorities.some(
-              (authority) => authority.authority === "Administrator"
-            );
-          });
-        console.log(filteredUser)
-        const userNames = filteredUser.map(
+        const userNames = filteredUsers.map(
           (each) => `${each.userName}-${each.userId.slice(-4)}`
         );
         setAllUsers(userNames);
@@ -231,6 +224,7 @@ const Createtask = () => {
       .then((response) => response.json())
       .then((data) => {
         toast.success("Task Created");
+        window.location.reload()
       })
       .catch((error) => {
         // Handle any error that occurred during the fetch request
@@ -238,110 +232,387 @@ const Createtask = () => {
         console.error("Error:", error);
       });
   };
-  return (
+return (
     <>
-      {/* <TaskHead /> */}
-      <div className="create-task-main-container">
-        <h2 className="Add-task-heading">Add Task</h2>
-        <div className="task-dropDown-container">
-          <div>
-            <Autocomplete
-              className="add-task-dropdown"
-              size="small"
-              disablePortal
-              id="combo-box-demo0"
-              options={allUser}
-              value={activeUser}
-              onChange={(event, newValue) => setActiveUser(newValue)}
-              // isOptionEqualToValue={(option, value) => option.id === value.id}
-              sx={{ width: 300 }}
-              renderInput={(params) => <TextField {...params} label="Users" />}
-            />
-            <Autocomplete
-              className="add-task-dropdown"
-              size="small"
-              disablePortal
-              id="combo-box-demo"
-              options={allSalesPersons}
-              value={activeSalesPerson}
-              onChange={(event, newValue) => setActiveSalesPerson(newValue)}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              sx={{ width: 300 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Sales Person" />
-              )}
-            />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          margin:'auto',
+          height:'70vh',
+        }}
+      >
+        <h1 style={{marginTop:'10px'}}>Add Task</h1>
+        {/* DeskTop View */}
+        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <div className="AddTask-container">
+            <div className="each-AddTask-container">
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo0"
+                options={allUser}
+                value={activeUser}
+                onChange={(event, newValue) => setActiveUser(newValue)}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 290,marginRight:'20px' }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Users" />
+                )}
+              />
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo"
+                options={allSalesPersons}
+                value={activeSalesPerson}
+                onChange={(event, newValue) => setActiveSalesPerson(newValue)}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 290 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Sales Person" />
+                )}
+              />
+            </div>
+            <br />
+            <div className="each-AddTask-container">
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo2"
+                options={allOffers}
+                value={activeOffering}
+                onChange={(event, newValue) => setActiveOffering(newValue)}
+                sx={{ width: 290 }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField {...params} label="Offers" />
+                )}
+              />
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo3"
+                options={allContacts}
+                value={activeContact}
+                onChange={(event, newValue) => setActiveContact(newValue)}
+                sx={{ width: 290 }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField {...params} label="Contact" required />
+                )}
+              />
+            </div>
+            <br />
+            <div className="each-AddTask-container">
+              <LocalizationProvider
+                style={{ width: "350px" }}
+                dateAdapter={AdapterDayjs}
+              >
+                <DemoContainer components={["DatePicker"]}>
+                  <DemoItem label="Start Date">
+                    <MobileDatePicker
+                      sx={{ width: "290px" }}
+                      value={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={["DatePicker"]}>
+                  <DemoItem label="Due Date">
+                    <MobileDatePicker
+                      sx={{ width: "290px", height: "28px" }}
+                      value={dueDate}
+                      onChange={(date) => setDueDate(date)}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+            <br />
+            <div>
+              <StyledTextarea
+                sx={{ width: 350 }}
+                id="message"
+                rows="4"
+                cols="50"
+                onChange={(e) => setTaskContent(e.target.value)}
+                className="task-text-field"
+                style={{ width: "100%" }}
+                aria-label="empty textarea"
+                placeholder="Task description ....."
+              />
+            </div>
+            <br />
+            <div className="text-center">
+              <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={onclickAddTask}>
+                Add Task
+              </button>
+              <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>
+                Back
+              </button>
+            </div>
           </div>
-          <div>
-            <Autocomplete
-              className="add-task-dropdown"
-              size="small"
-              disablePortal
-              id="combo-box-demo2"
-              options={allOffers}
-              value={activeOffering}
-              onChange={(event, newValue) => setActiveOffering(newValue)}
-              sx={{ width: 300 }}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => <TextField {...params} label="Offers" />}
-            />
-            <Autocomplete
-              className="add-task-dropdown"
-              size="small"
-              disablePortal
-              id="combo-box-demo3"
-              options={allContacts}
-              value={activeContact}
-              onChange={(event, newValue) => setActiveContact(newValue)}
-              sx={{ width: 300 }}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              renderInput={(params) => (
-                <TextField {...params} label="Contact" />
-              )}
-            />
+        </Box>
+        <Box sx={{ flexGrow: 1, display: { md: "none", sm: "flex",xs:"none" },height:'60vh',alignSelf:'center' }}>
+          <div className="AddTask-container-fold">
+            <div className="each-AddTask-container-sm">
+              <Autocomplete
+                size="small"
+                className="mb-2"
+                disablePortal
+                id="combo-box-demo0"
+                options={allUser}
+                value={activeUser}
+                onChange={(event, newValue) => setActiveUser(newValue)}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 400 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Users" />
+                )}
+              />
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo"
+                options={allSalesPersons}
+                value={activeSalesPerson}
+                onChange={(event, newValue) => setActiveSalesPerson(newValue)}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                sx={{ width: 400 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Sales Person" />
+                )}
+              />
+            </div>
+            <br />
+            <div className="each-AddTask-container-sm">
+              <Autocomplete
+                className="mb-2"
+                size="small"
+                disablePortal
+                id="combo-box-demo2"
+                options={allOffers}
+                value={activeOffering}
+                onChange={(event, newValue) => setActiveOffering(newValue)}
+                sx={{ width: 400 }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField {...params} label="Offers" />
+                )}
+              />
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo3"
+                options={allContacts}
+                value={activeContact}
+                onChange={(event, newValue) => setActiveContact(newValue)}
+                sx={{ width: 400 }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField {...params} label="Contact" required />
+                )}
+              />
+            </div>
+            <br />
+            <div className="each-AddTask-container-sm">
+              <LocalizationProvider
+                style={{ width: "2300px" }}
+                dateAdapter={AdapterDayjs}
+              >
+                <DemoContainer components={["DatePicker"]}>
+                  <DemoItem label="Start Date">
+                    <MobileDatePicker
+                      sx={{ width: "400px" }}
+                      value={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                className="date-field"
+              >
+                <DemoContainer components={["DatePicker"]}>
+                  <DemoItem label="Due Date">
+                    <MobileDatePicker
+                      sx={{ width: "400px" }}
+                      value={dueDate}
+                      onChange={(date) => setDueDate(date)}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+            <br />
+            <div>
+              <StyledTextarea
+                sx={{ width: 350 }}
+                id="message"
+                rows="4"
+                cols="50"
+                onChange={(e) => setTaskContent(e.target.value)}
+                className="task-text-field"
+                style={{ width: "100%" }}
+                aria-label="empty textarea"
+                placeholder="Task description ....."
+              />
+            </div>
+            <br />
+            <div className="text-center">
+              <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={onclickAddTask}>
+                Add Task
+              </button>
+              <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>
+                Back
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="main-date-fields-container">
-          <div className="date-fields-container">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DatePicker"]}>
-                <DatePicker
-                  label="Start Date"
-                  value={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                />
-                <DatePicker
-                  label="Due Date"
-                  value={dueDate}
-                  onChange={(date) => setDueDate(date)}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
-            <StyledTextarea
-              id="message"
-              rows="4"
-              cols="50"
-              onChange={(e) => setTaskContent(e.target.value)}
-              className="task-text-field"
-              style={{ width: "100%" }}
-              aria-label="empty textarea"
-              placeholder="Task description ....."
-            />
+        </Box>
+        {/* Mobile View */}
+        <Box sx={{ flexGrow: 1, display: { xs: "flex", sm: "none" }}}>
+          <div className="AddTask-container-sm">
+            <div className="each-AddTask-container-sm">
+              <Autocomplete
+                size="small"
+                className="mb-2"
+                disablePortal
+                id="combo-box-demo0"
+                options={allUser}
+                value={activeUser}
+                onChange={(event, newValue) => setActiveUser(newValue)}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                style={{ width: "100%" }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Users" />
+                )}
+              />
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo"
+                options={allSalesPersons}
+                value={activeSalesPerson}
+                onChange={(event, newValue) => setActiveSalesPerson(newValue)}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                style={{ width: "100%" }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Sales Person" />
+                )}
+              />
+            </div>
+            <br />
+            <div className="each-AddTask-container-sm">
+              <Autocomplete
+                className="mb-2"
+                size="small"
+                disablePortal
+                id="combo-box-demo2"
+                options={allOffers}
+                value={activeOffering}
+                onChange={(event, newValue) => setActiveOffering(newValue)}
+                style={{ width: "100%" }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField {...params} label="Offers" />
+                )}
+              />
+              <Autocomplete
+                size="small"
+                disablePortal
+                id="combo-box-demo3"
+                options={allContacts}
+                value={activeContact}
+                onChange={(event, newValue) => setActiveContact(newValue)}
+                style={{ width: "100%" }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField {...params} label="Contact" required />
+                )}
+              />
+            </div>
+            <br />
+            <div className="each-AddTask-container-sm">
+              <LocalizationProvider
+                style={{ width: "250px" }}
+                dateAdapter={AdapterDayjs}
+              >
+                <DemoContainer components={["DatePicker"]}>
+                  <DemoItem label="Start Date">
+                    <MobileDatePicker
+                      style={{ width: "100%" }}
+                      value={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                className="date-field"
+              >
+                <DemoContainer components={["DatePicker"]}>
+                  <DemoItem label="Due Date">
+                    <MobileDatePicker
+                      style={{ width: "100%" }}
+                      value={dueDate}
+                      onChange={(date) => setDueDate(date)}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </DemoItem>
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
+            <br />
+            <div>
+              <StyledTextarea
+                sx={{ width: 350 }}
+                id="message"
+                rows="4"
+                cols="50"
+                onChange={(e) => setTaskContent(e.target.value)}
+                className="task-text-field"
+                style={{ width: "100%" }}
+                aria-label="empty textarea"
+                placeholder="Task description ....."
+              />
+            </div>
+            <br />
+            <div className="text-center">
+              <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={onclickAddTask}>
+                Add Task
+              </button>
+              <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>
+                Back
+              </button>
+            </div>
           </div>
-          <div style={{ textAlign: "center", marginTop: "1rem" }}>
-            <Button variant="contained" onClick={onclickAddTask}>
-              Add Task
-            </Button>
-          </div>
-        </div>
+        </Box>
       </div>
     </>
   );
 };
-export default Createtask;
+export default Res;

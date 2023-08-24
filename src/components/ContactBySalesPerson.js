@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import "./index.css"
+import SalesPersonDashboard from './SalesPersonDashboard';
 
 let dat={
     firstName: "",
@@ -28,7 +29,7 @@ let dat={
      userId:''
    }
 }
-const ContactForm = () => {
+const CreateContact = () => {
   const userId = localStorage.getItem("userId")
   const [formStatus, setFormStatus] = useState(dat);
   const [data,setData]= useState([])
@@ -146,6 +147,8 @@ const ContactForm = () => {
   }
 return (
     <div>
+        <SalesPersonDashboard />
+    <div>
       <div className="container" >
         <div className="row d-flex justify-content-center">
           <div className="col-10 ">
@@ -254,6 +257,7 @@ return (
         </div>
       </div >
     </div >
+    </div>
   );
 };
-export default ContactForm;
+export default CreateContact;

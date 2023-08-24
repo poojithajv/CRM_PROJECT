@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import api from './../util/api'
 import {useLocation} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import "./index.css"
-export default function UpdateNotification  ({notification})  {
+export default function UpdateNotification  ()  {
+  const notification=JSON.parse(localStorage.getItem('notificationRow'))
+  const [notificationTemplates,setNotificationTemplates]=useState(null)
+  console.log(notification)
     const navigate=useNavigate();
     const parseDate = (date) => {
         if (!date || isNaN(new Date(date))) {
@@ -12,12 +15,12 @@ export default function UpdateNotification  ({notification})  {
         return new Date(date).toISOString().split('T')[0];
       };
   const [formData, setFormData] = useState({
-    notificationType:notification.notificationType ? notification.notificationType.statusValue : "",
+    notificationType:notification?.notificationType ? notification?.notificationType?.statusValue : "",
    // offeringType : offer.offeringType ? offer.offeringType.statusValue : "",
-   notificationTemplate : notification.notificationTemplate,
-   subject : notification.subject,
-   role : notification.role,
-   remindBefore : parseDate(notification.remindBefore)
+   notificationTemplate : notification?.notificationTemplate,
+   subject : notification?.subject,
+   role : notification?.role,
+   remindBefore : parseDate(notification?.remindBefore)
   });
   const handleChange = (e) => {
     e.preventDefault();
@@ -45,12 +48,43 @@ export default function UpdateNotification  ({notification})  {
         console.log(response)
         if (response.status===200){
             alert('Data Updated Successfully')
+            window.location.reload()
         }
         
     }catch (error) {
         console.log(error.message);
       }
   };
+
+  useEffect(() => {
+    // Fetch the template list here and update the state
+    const getNotificationTemplate = () => {
+      const apiUrl = `app/notifications/getalltemplates`;
+      const authToken = localStorage.getItem('token')
+      fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setNotificationTemplates(result)
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    };
+getNotificationTemplate()
+}, []);
+
+  const handleClear=()=>{
+    if (window.confirm('Are you sure you want to clear all fields?')) {
+      setFormData({notificationType:'',notificationTemplate:'',subject:'',role:'',remindBefore:''})
+    }
+  }
   const onSubmit = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -58,10 +92,10 @@ export default function UpdateNotification  ({notification})  {
   };
   return (
     <div>
-      <div className="container">
+      <div className="container" >
         <div className="row d-flex justify-content-center">
-          <div className="col-10 ">
-            <div className="card mt-5">
+          <div className="col-12 ">
+            <div className="card mt-5" style={{height:'70vh',overflowY:'scroll'}}>
               <div className="card-header">
                 <h2 className='text-info'>Update Notification</h2>
               </div>
@@ -71,7 +105,7 @@ export default function UpdateNotification  ({notification})  {
                     <div className="col-md-6 mt-3">
                       <div className="form-group">
                       <label className="form-label" htmlFor="notificationType">
-                            Notification Type<span>*</span>
+                            Notification Type<span className='required'>*</span>
                         </label>
                         <select className="form-control"
                             type="text"
@@ -88,21 +122,25 @@ export default function UpdateNotification  ({notification})  {
                       <div className="form-group mt-3">
                       <label className="form-label" htmlFor="notificationTemplate">
                             Notification Template<span>*</span>
-                        </label>
-                        <input className="form-control"
-                        type="text"
-                        id="notificationTemplate"
-                        // onClick={getNotificationTemplate}
-                        name="notificationTemplate"
-                        value={formData.notificationTemplate}
-                        onChange={handleChange}
-                        placeholder="Notification Template" required />
+                                    </label>
+                                    <select value={formData.notificationTemplate} className='form-select' name='notificationTemplate' id='notificationTemplate' onChange={handleChange}>
+                                      <option value='' hidden>Select</option>
+                                      {
+                                        notificationTemplates && notificationTemplates.map((notification,index)=>{
+                                          return(
+                                            <option key={index} value={notification.notificationTemplate
+                                            }>{notification.notificationTemplate
+                                            }</option>
+                                          )
+                                        })
+                                      }
+                                    </select>
                       </div> 
                     </div>
                     <div className="col-md-6 mt-3">
                     <div className="form-group">
                     <label className="form-label" htmlFor="remindBefore">
-                            Remind Before<span>*</span>
+                            Remind Before<span className='required'>*</span>
                     </label>
                     <input className="form-control"
                     type="date"
@@ -114,7 +152,7 @@ export default function UpdateNotification  ({notification})  {
                       </div>
                       <div className="form-group mt-3" >
                       <label className="form-label" htmlFor="subject">
-                            Subject <span>*</span>
+                            Subject <span className='required'>*</span>
                         </label>
                         <input className="form-control"
                         type="text"
@@ -128,7 +166,7 @@ export default function UpdateNotification  ({notification})  {
                     <div className="col-md-6">
                     <div className="form-group mt-3">
                     <label className="form-label" htmlFor="role">
-                        Role<span>*</span>
+                        Role<span className='required'>*</span>
                     </label>
                     <select className="form-control"
                         type="text"
@@ -145,8 +183,9 @@ export default function UpdateNotification  ({notification})  {
                     </div>
                     <div className="col-12 mt-4">
                       <div className="input-group d-flex justify-content-center">
-                        <button type="submit" className='btn  btn-success'>Update</button>
-                        {/* <button className='btn btn-secondary' style={{marginLeft:'20px'}} onClick={handleClear}>Clear</button> */}
+                        <button type="submit" style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Update</button>
+                        <button type='button' style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={handleClear}>Clear</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>Back</button>
                       </div>
                     </div>
                   </div>

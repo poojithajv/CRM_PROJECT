@@ -1,4 +1,5 @@
 import React,{useState,useEffect,useRef} from 'react'
+import {RiLogoutCircleRLine} from 'react-icons/ri'
 import {IoIosContact} from 'react-icons/io'
 import {useNavigate} from 'react-router-dom'
 import api from './../util/api'
@@ -7,16 +8,15 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import logo from './kloc-white-logo.png'
 import './index.css'
-import AllUsers from './AllUsers';
-import EditUser from './EditUser'
-import ManagerWiseData from './ManagerWiseData';
+import UserModule from './UserModule'
 import AllContacts from './AllContacts';
 import AllTasks from './AllTasks'
 import AllOffering from './AllOffering'
+import AllSalesPersons from './AllSalesPersons'
 import AllNotifications from './AllNotifications'
-import SalesPersonDashboard from './SalesPersonDashboard';
 import AllOpportunities from './AllOpportunities';
 import UpdateProfile from './UpdateProfile';
+import AllCustomers from './AllCustomers';
 
 const activeClassName = "activeTab";
 function Dashboard() {
@@ -27,6 +27,7 @@ function Dashboard() {
   const [isdash,setIsDash]=useState(false)
   const [isDashboard, setIsDashboard] = useState(false);
   const [isUser, setIsUser] = useState(false);
+  const [isSalesPerson,setIsSalesPerson]=useState(false)
   const [isContact, setIsContact] = useState(false);
   const [isTask, setIsTask] = useState(false);
   const [isOffering,setIsOffering]=useState(false)
@@ -78,123 +79,146 @@ function Dashboard() {
       }
     },[])
     let profileData=proData.filter(item=>item.email===localStorage.getItem('userEmail'))
-    const handleDashboard = () => {
-      setIsDashboard(true)
-      setIsUser(false)
-      setIsContact(false)
-      setIsTask(false)
-      setIsOffering(false)
-      setIsOpportunity(false)
-      setIsCustomer(false)
-      setIsNotification(false)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("dashboard");
-    };
-    const handleUser = () => {
-      setIsDashboard(false)
-      setIsUser(true)
-      setIsContact(false)
-      setIsTask(false)
-      setIsOffering(false)
-      setIsOpportunity(false)
-      setIsCustomer(false)
-      setIsNotification(false)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("user");
-    };
-    const handleContact = () => {
-      setIsDashboard(false)
-      setIsUser(false)
-      setIsContact(true)
-      setIsTask(false)
-      setIsOffering(false)
-      setIsOpportunity(false)
-      setIsCustomer(false)
-      setIsNotification(false)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("contact");
-    };
-    const handleTask = () => {
-      setIsDashboard(false)
-      setIsUser(false)
-      setIsContact(false)
-      setIsTask(true)
-      setIsOffering(false)
-      setIsOpportunity(false)
-      setIsCustomer(false)
-      setIsNotification(false)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("task");
-    };
-    const handleOffering = () => {
-      setIsDashboard(false)
-      setIsUser(false)
-      setIsContact(false)
-      setIsTask(false)
-      setIsOffering(true)
-      setIsOpportunity(false)
-      setIsCustomer(false)
-      setIsNotification(false)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("offering");
-    };
-    const handleOpportunity = () => {
-      setIsDashboard(false)
-      setIsUser(false)
-      setIsContact(false)
-      setIsTask(false)
-      setIsOffering(false)
-      setIsOpportunity(true)
-      setIsCustomer(false)
-      setIsNotification(false)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("opportunity");
-    };
-    const handleCustomer = () => {
-      setIsDashboard(false)
-      setIsUser(false)
-      setIsContact(false)
-      setIsTask(false)
-      setIsOffering(false)
-      setIsOpportunity(false)
-      setIsCustomer(true)
-      setIsNotification(false)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("customer");
-    };
-    const handleNotification = () => {
-      setIsDashboard(false)
-      setIsUser(false)
-      setIsContact(false)
-      setIsTask(false)
-      setIsOffering(false)
-      setIsOpportunity(false)
-      setIsCustomer(false)
-      setIsNotification(true)
-      setIsProfile(false)
-      setIsPopUpOpen(false);
-      setActiveTab("notification");
-    };
-    const handleProfile = () => {
-      setIsDashboard(false)
-      setIsUser(false)
-      setIsContact(false)
-      setIsTask(false)
-      setIsOffering(false)
-      setIsOpportunity(false)
-      setIsCustomer(false)
-      setIsNotification(false)
-      setIsProfile(true)
-      setIsPopUpOpen(false);
-      setActiveTab("profile");
-    };
+    // const handleDashboard = () => {
+    //   setIsDashboard(true)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("dashboard");
+    // };
+    // const handleUser = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(true)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("user");
+    // };
+    // const handleSalesPerson=()=>{
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(true)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("salesPerson");
+    // }
+    // const handleContact = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(true)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("contact");
+    // };
+    // const handleTask = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(true)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("task");
+    // };
+    // const handleOffering = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(true)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("offering");
+    // };
+    // const handleOpportunity = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(true)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("opportunity");
+    // };
+    // const handleCustomer = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(true)
+    //   setIsNotification(false)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("customer");
+    // };
+    // const handleNotification = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(true)
+    //   setIsProfile(false)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("notification");
+    // };
+    // const handleProfile = () => {
+    //   setIsDashboard(false)
+    //   setIsUser(false)
+    //   setIsSalesPerson(false)
+    //   setIsContact(false)
+    //   setIsTask(false)
+    //   setIsOffering(false)
+    //   setIsOpportunity(false)
+    //   setIsCustomer(false)
+    //   setIsNotification(false)
+    //   setIsProfile(true)
+    //   setIsPopUpOpen(false);
+    //   setActiveTab("profile");
+    // };
 
     const handleIcon=()=>{
       setProfile(prevState=>!prevState)
@@ -229,63 +253,66 @@ function Dashboard() {
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleDashboard}>Dashboard Metrics</p>
+                >Dashboard Metrics</p>
               <p className={
                   activeTab === "user"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleUser}>User</p>
-              <p className={
+                onClick={()=>navigate('/allUsers')}>User</p>
+                <p className={
+                  activeTab === "salesPerson"
+                    ? `${activeClassName} `
+                    : "desktop-header-navbar-link"
+                }
+                onClick={()=>navigate('/allSalesPersons')}>SalesPerson</p>
+              <p onClick={()=>navigate('/allContacts')} className={
                   activeTab === "contact"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleContact}>Contact</p>
-              <p className={
+                >Contact</p>
+              <p onClick={()=>navigate('/allTasks')} className={
                   activeTab === "task"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleTask}>Task</p>
-              <p className={
+                >Task</p>
+              <p onClick={()=>navigate('/allOfferings')} className={
                   activeTab === "offering"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleOffering}>Offering</p>
+                >Offering</p>
               <p className={
                   activeTab === "opportunity"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleOpportunity}>Opportunity</p>
-              <p className={
+                onClick={()=>navigate('/allOpportunities')}>Opportunity</p>
+              <p onClick={()=>navigate('/allNotifications')} className={
                   activeTab === "notification"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleNotification}>Notification</p>
-              <p className={
+                >Notification</p>
+              <p onClick={()=>navigate('/allCustomers')} className={
                   activeTab === "customer"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleCustomer}>Customer</p>
+                >Customer</p>
               {/* <p className='desktop-header-navbar-link' >Logout</p> */}
-              <p onClick={handleIcon} className={
+              <p onClick={()=>navigate('/profileModule',{state:profileData})} className={
                   activeTab === "profile"
                     ? `${activeClassName}`
                     : "desktop-header-navbar-link"
                 }><IoIosContact  size={20}/></p>
-              {profile && (
-                <nav className="dropdown" ref={dropRef} onClick={()=>setProfile(!profile)}>
-                  <ul>
-                    <li onClick={handleProfile} className={activeTab === "profile"? `${activeClassName} `: "desktop-header-list"}>Profile</li>
-                    <li className='desktop-header-list' onClick={handleLogout}>Logout</li>
-                  </ul>
-                </nav>
-              )}
+                <p onClick={handleLogout} className={
+                  activeTab === "logout"
+                    ? `${activeClassName}`
+                    : "desktop-header-navbar-link"
+                }><RiLogoutCircleRLine  size={20}/></p>
             </div>
             {/* nav header for mobile  with Logo and components Dashboard, Assessments, Test Reports, Student Reports and Sign Out */}
             <div className="mobile-header-navbar-container">
@@ -309,29 +336,22 @@ function Dashboard() {
                 onClose={() => setIsPopUpOpen(false)}
               >
                 <ul className="mobile-hamburger-menu">
-                  <li className="header-navbar-link" onClick={() => handleDashboard()}>Dashboard Metrics</li>
-                  <li className="header-navbar-link" onClick={() => handleUser()}>User</li>
-                  <li className="header-navbar-link" onClick={() => handleContact()}>Contact</li>
-                  <li className="header-navbar-link" onClick={() => handleTask()}>Task</li>
-                  <li className="header-navbar-link" onClick={() => handleOffering()}>Offering</li>
-                  <li className="header-navbar-link" onClick={() => handleOpportunity()}>Opportunity</li>
-                  <li className="header-navbar-link" onClick={() => handleNotification()}>Notification</li>
-                  <li className="header-navbar-link" onClick={() => handleCustomer()}>Customer</li>
+                  <li className="header-navbar-link" >Dashboard Metrics</li>
+                  <li className="header-navbar-link" onClick={() => navigate('/allUsers')}>User</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/allSalesPersons')}>SalesPerson</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/allContacts')}>Contact</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/allTasks')}>Task</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/allOfferings')}>Offering</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/allOpportunities')}>Opportunity</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/allNotifications')}>Notification</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/allCustomers')}>Customer</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/profileModule',{state:profileData})}>Profile</li>
                   <li className="header-navbar-link" onClick={handleLogout}>Logout</li>
                 </ul>
               </Popup>
             </div>
       </div>
       )}
-      
-      {/* {isDashboard && <Dashboard />} */}
-      {isUser && <AllUsers />}
-      {isContact && <AllContacts />}
-      {isTask && <AllTasks />}
-      {isOffering && <AllOffering />}
-      {isNotification && <AllNotifications />}
-      {isOpportunity && <AllOpportunities />}
-      {isProfile && <UpdateProfile data={profileData}/>}
     </div>
   )
 }

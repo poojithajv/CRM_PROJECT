@@ -22,9 +22,9 @@ function TaskLatestStatus(props) {
   },[])
   console.log(data)
   return (
-    <div>
+    <div style={{width:'80vw',height:'90vh',overflowY:'scroll'}}>
       <div>
-      <h1>Task Id: {taskId} Latest Status</h1>
+      <h1 className='main-heading1'>Task Id: {taskId} Latest Status</h1>
       <div className='statuses-container'>
           <div className='status-container' >
             <h2 className='sub-id'>Task Sub Id: {data.taskSubId}</h2>

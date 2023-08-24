@@ -1,0 +1,41 @@
+import React, { useState} from 'react'
+import AllUsers from './AllUsers';
+import UserRegister from './UserRegister';
+import Dashboard from './Dashboard';
+import EditUser from './EditUser';
+import './index.css'
+
+function UserModule() {
+    const [isCreateUser,setIsCreateUser]=useState(false)
+    const [isUpdateUser,setIsUpdateUser]=useState(false)
+      const handleCreateUser=()=>{
+        setIsCreateUser(true)
+        setIsUpdateUser(false)
+      }
+      const handleUpdateUser=()=>{
+        setIsUpdateUser(true)
+        setIsCreateUser(false)
+      }
+  return (
+    <div>
+      <Dashboard />
+    <div className='users-container'>
+      <div className='buttons'>
+        <button style={{backgroundColor:'#1d1a69'}} className='userbtn' onClick={handleCreateUser}>Create User</button>
+        <button style={{backgroundColor:'lightgray',color:'#010000'}} className='userbtn' onClick={handleUpdateUser}>Update User</button>
+      </div>
+    {isCreateUser===false && isUpdateUser===false ? (
+     <AllUsers />
+     ) : null}
+    {isCreateUser && (
+      <UserRegister />
+    )}
+    {isUpdateUser && (
+      <EditUser  />
+    )}
+    </div>
+    </div>
+  )
+}
+
+export default UserModule

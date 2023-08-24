@@ -25,10 +25,11 @@ function Home() {
           }
     },[])
     const handleClick=()=>{
+      console.log(data.role)
         if (data.role==='SalesPerson'){
             navigate('/salesPersonDashboard',{state:email})
         }else{
-            navigate('/dashboard')
+            navigate('/dashboard',{state:email})
         }
     }
   return (

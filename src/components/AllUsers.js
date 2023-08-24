@@ -2,23 +2,24 @@ import React, { useState, useEffect } from 'react'
 import {Navigate, useNavigate,Link} from 'react-router-dom'
 import { Navbar, Nav } from "react-bootstrap";
 import { DataGrid } from "@mui/x-data-grid";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
 import UserRegister from './UserRegister';
 import EditUser from './EditUser';
 import api from './../util/api'
 import './index.css'
 
 function AllUsers() {
+  const [dat,setDat]=useState([])
     const [users,setUsers]=useState([])
-    const [dat,setDat]=useState([])
     const [rolesData,setRolesData]=useState([])
     const [namesData,setNamesData]=useState([])
     const [managerData,setManagerData]=useState([])
+    const [isOpen,setIsOpen]=useState(false)
     const [selectedRole,setSelectedRole]=useState('')
     const [selectedName,setSelectedName]=useState('')
     const [selectedManager,setSelectedManager]=useState('')
-    const [isAllUsers,setIsAllUsers]=useState(false)
-    const [isCreateUser,setIsCreateUser]=useState(false)
-    const [isUpdateUser,setIsUpdateUser]=useState(false)
     const [selectedRow,setSelectedRow]=useState([])
     const navigate=useNavigate()
     const [search, setSearch] = useState('');
@@ -97,22 +98,9 @@ function AllUsers() {
     managers.sort(function (a, b) {
       return a[0].localeCompare(b[0]);
       });
-    // let d=users.filter(item=>{
-    //   if (item.authorities[0].authority.toLowerCase().includes('manager')){
-    //     return item.userId
-    //   }})
-    // let c=d.map(item=>{managerData.push(item.userId)})
     let data = users.map((item, index) => ({ ...item, id: index + 1}));
     const roles=[...new Set(rolesData)]
     const names=[...new Set(namesData)]
-    // const managers=[...new Set(managerData)]
-    // const [managerNames,setManagerNames]=useState([])
-    // for (let i of managers){
-    //   api.get(`/api/getUserById/${i}`)
-    //   .then(res=>{
-    //     setManagerNames([...new Set([...managerNames,res.data.userName])])
-    //   }).catch(err => console.log(err.message))
-    // }
     const columns = [
        {
         width: 60,
@@ -183,11 +171,7 @@ function AllUsers() {
             width: 160,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
+
           },
           {
             field: "statusValue",
@@ -195,11 +179,6 @@ function AllUsers() {
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
           },
           {
             field: "reportingUsrName",
@@ -207,170 +186,44 @@ function AllUsers() {
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
           },
-        // {
-        //   field: "Update",
-        //   headerName: "Update User",
-        //   width: 100,
-        //   headerClassName: "table-header",
-        //   cellClassName: "table-cell",
-        //   sortable: false,
-        //   renderCell: (params) => (
-        //     <button
-        //       className="button1"
-        //       onClick={() => navigate("/update_user", { state: params.row })}
-        //       style={{ padding: "3px", width: "60px" }}
-        //     >
-        //       Update
-        //     </button>
-        //   ),
-        // },
-        {
-          field: "View",
-          headerName: "View Data",
-          width: 100,
-          headerClassName: "table-header",
-          cellClassName: "table-cell",
-          sortable: false,
-          renderCell: (params) => (
-            <button
-              className="button1"
-              onClick={() => navigate("/managerWiseData", { state: params.row})}
-              style={{ padding: "3px", width: "60px" }}
-            >
-              View
-            </button>
-          ),
-        },
       ];
       const handleSearch = (e) => {
         setSearch(e.target.value);
       };
       
-      
-      
-      //const searchRoleData=finalData?.filter((item)=>item?.role?.statusValue?.toLowerCase().includes(search?.searchRole?.toLowerCase()))
-      //const searchIdData=searchRoleData?.filter((item)=>item?.userId.includes(search?.searchId))
-      //const searchNameData=searchIdData?.filter((item)=>item?.userName?.toLowerCase().includes(search?.searchName?.toLowerCase()))
-      // const onRowSelection = (id) => {
-      //   console.log(id)
-      //   navigate("/update_user", { state: finalData[id - 1] });
-      // };
       const onRowHandleClick=(params)=>{
         setSelectedRow(params.id)
-        setDat(params.row)
+        console.log(JSON.stringify(params.row))
+        localStorage.setItem('userRow',JSON.stringify(params.row))
+        setDat(params?.row)
       }
-      const handleCreateUser=()=>{
-        setIsCreateUser(true)
-        setIsAllUsers(false)
-        setIsUpdateUser(false)
+
+      const viewDetails=()=>{
+        setIsOpen(!isOpen)
       }
-      const handleUpdateUser=()=>{
-        setIsUpdateUser(true)
-        setIsAllUsers(false)
-        setIsCreateUser(false)
+      const handleClose=()=>{
+        setIsOpen(!isOpen)
       }
-      const handleAllUsers=()=>{
-        setIsAllUsers(true)
-        setIsCreateUser(false)
-        setIsUpdateUser(false)
-      }
-  return (
-    <div className='sidenav-users-container'>
-      <div  >
-        <Navbar className="flex-column custom-navbar">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="flex-column">
-            <Nav.Link onClick={handleAllUsers}>
-              All Users
-            </Nav.Link>
-            <Nav.Link onClick={handleCreateUser} >
-              Create User
-            </Nav.Link>
-            <Nav.Link onClick={handleUpdateUser} >
-              Update User
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      </div>
-      {isAllUsers && (
-        <div className='users-container'>
+  return ( 
+    <div>
+    <div className='user-container'>
         <div className='headings'>
             <h1 className='main-heading'>All Users</h1>
             <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-            {/* <h2 style={{marginRight:'10px'}} className='sub-heading'>Add User</h2>
-            <h2 onClick={()=>navigate('/update_user',{state:dat})} className='sub-heading'>Update User</h2> */}
+            <button onClick={viewDetails}>View</button>
             </div>
         </div>
-        {/* <div className='search-container'>
-          <label htmlFor='searchRole' className='searchLabel'>Search By Role:
-          <input
-              id="searchRole"
-              name="searchRole"
-              value={search.searchRole}
-              type="text"
-              placeholder='Enter Role'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-          <label htmlFor='searchId' className='searchLabel'>Search By ID:
-          <input
-              id="searchId"
-              name="searchId"
-              value={search.searchId}
-              type="text"
-              placeholder='Enter ID'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-          <label htmlFor='searchName' className='searchLabel'>Search By Name:
-          <input
-              id="searchName"
-              name="searchName"
-              value={search.searchName}
-              type="text"
-              placeholder='Enter Name'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-        </div> */}
-        {/* <div className='search-container'>
-          <select value={search} onChange={handleSearch}>
-            <option value=''>Select</option>
-            <option value='searchByRole'>Search By Role</option>
-            <option value='searchByUserName'>Search By User Name</option>
-            <option value='searchByManager'>Search By Manager</option>
-          </select>
-        </div> */}
         <div className='search-container'>
            <div className='search-cont'>
-            <select  className='select' value={selectedRole} onChange={(e)=>setSelectedRole(e.target.value)} >
+            <select className='select' value={selectedRole} onChange={(e)=>setSelectedRole(e.target.value)} >
               <option value='' >Select Role</option>
               {roles.map((item,index)=>
                 <option  key={index}>{item}</option>
               )}
             </select>
-            <button type="button" onClick={handleRecords}>
-              <i class="fa fa-search" aria-hidden="true"></i>
+            <button className='icon' type="button" onClick={handleRecords}>
+              <i class="fa fa-search " aria-hidden="true"></i>
             </button>
           </div>
           <div className='search-cont'>
@@ -380,7 +233,7 @@ function AllUsers() {
                 <option key={index}>{item}</option>
               )}
             </select>
-            <button type="button" onClick={handleNameRecords}>
+            <button className='icon' type="button" onClick={handleNameRecords}>
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div> 
@@ -391,7 +244,7 @@ function AllUsers() {
                 <option value={item[0]}key={index[0]}>{item[0]} -- {item[1]}</option>
               )}
             </select>
-            <button type="button" onClick={handleManagerRecords}>
+            <button className='icon' type="button" onClick={handleManagerRecords}>
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
@@ -417,13 +270,54 @@ function AllUsers() {
             )}
         </div>
     </div>
-      )}
-    {isCreateUser && (
-      <UserRegister />
-    )}
-    {isUpdateUser && (
-      <EditUser data={dat} />
-    )}
+    <Modal show={isOpen} onRequestClose={handleClose} className="modal">
+        <Modal.Header closeButton onClick={handleClose}>
+          <Modal.Title>User Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group>
+            <Form.Label>Name </Form.Label>
+            <Form.Control type='text' value={dat?.userName}/>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Email Id: </Form.Label>
+            <Form.Control type='text' value={dat?.email} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Mobile Number: </Form.Label>
+            <Form.Control type='text' value={dat?.mobileNo} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Alternate Mobile Number </Form.Label>
+            <Form.Control type='text' value={dat?.altMobileNo} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Role </Form.Label>
+            <Form.Control type='text' value={dat?.role} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Status </Form.Label>
+            <Form.Control type='text' value={dat?.statusValue} />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Reporting To</Form.Label>
+            <Form.Control type='text' value={`${dat?.reportingUsrId} -- ${dat?.reportingUsrName}`} />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+          style={{backgroundColor:"#111359",marginTop:"-7px",color:'white',padding:'3px'}}
+            variant="primary"
+            type="submit"
+            
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
+            close
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react'
 import {Navigate, useNavigate,Link} from 'react-router-dom'
 import { Navbar, Nav } from "react-bootstrap";
 import { DataGrid } from "@mui/x-data-grid";
-import CreateOffering from './CreateOffering'
-import UpdateOffering from './UpdateOffering'
 import api from './../util/api'
 import './index.css'
 
 function AllOffering() {
     const [offeringData,setOfferingData]=useState([])
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [flooringPrice, setFlooringPrice] = useState("");
+    const [ceilingPrice, setCeilingPrice] = useState("");
+    const [fetchedData , setfetchedData] = useState([]);
     const [dat,setDat]=useState([])
-    const [isAllOffering,setIsAllOffering]=useState(false)
-    const [isCreateOffering,setIsCreateOffering]=useState(false)
-    const [isUpdateOffering,setIsUpdateOffering]=useState(false)
     const [selectedRow,setSelectedRow]=useState([])
 
     useEffect(()=>{
@@ -30,6 +30,49 @@ function AllOffering() {
             console.log(error.message);
           }
     },[])
+
+    const handleFilter = () => {
+      const filtered = data.filter((item) => {
+        const itemDate = new Date(item.validTillDate);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        end.setDate(end.getDate() + 1);
+      return itemDate >= start && itemDate < end;
+      });
+      // set filter data array to setFilterData function
+      setOfferingData(filtered);
+    };
+    const handlePriceFilter = () => {
+      const filtered = data.filter((item) => {
+          const itemFlooringPrice = parseFloat(item.flooringPrice);
+          const itemCeilingPrice = parseFloat(item.ceilingPrice);
+          return itemFlooringPrice >= parseFloat(flooringPrice) && itemCeilingPrice <= parseFloat(ceilingPrice);
+      });
+      setOfferingData(filtered.map((item, index) => ({ ...item, id: index + 1 })));
+  };
+    const handleFilterByPriceRange = () => {
+      if (!flooringPrice || !ceilingPrice) {
+          alert("Please enter both flooring and ceiling prices.");
+          return;
+      }
+      const authToken=localStorage.getItem('token')
+      const apiUrl = `OfferingController/get_all_offering_by_price_range/${flooringPrice}/${ceilingPrice}`;
+      fetch(apiUrl, {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+          },
+      })
+      .then((response) => response.json())
+      .then((filteredData) => {
+          setfetchedData(filteredData);
+      })
+      .catch((error) => {
+          console.error("Error:", error);
+      });
+  };
+
 
       let data=offeringData.map((item,index)=>({...item,id:index+1}))
       const columns = [
@@ -61,6 +104,13 @@ function AllOffering() {
           headerClassName: "table-header",
         },
         {
+          field: "offeringType",
+          headerName: "Offering Type",
+          width: 130,
+          cellClassName: "table-cell",
+          headerClassName: "table-header",
+        },
+        {
             field: "offeringName",
             headerName: "Offering  Name",
             width: 150,
@@ -75,22 +125,22 @@ function AllOffering() {
             headerClassName: "table-header",
           },
           {
-            field: "projectCost",
-            headerName: "Project Cost",
+            field: "ceilingPrice",
+            headerName: "Ceiling Price",
             width: 130,
             cellClassName: "table-cell",
             headerClassName: "table-header",
           },
           {
-            field: "actualCost",
-            headerName: "Actual Cost",
+            field: "floorPrice",
+            headerName: "Floor Price",
             width: 130,
             cellClassName: "table-cell",
             headerClassName: "table-header",
           },
           {
-            field: "costType",
-            headerName: "Cost Type",
+            field: "currency",
+            headerName: "Currency",
             width: 130,
             cellClassName: "table-cell",
             headerClassName: "table-header",
@@ -106,51 +156,90 @@ function AllOffering() {
     const onRowHandleClick=(params)=>{
         setSelectedRow(params.id)
         setDat(params.row)
-      }
-      const handleCreateOffering=()=>{
-        setIsAllOffering(false)
-        setIsCreateOffering(true)
-        setIsUpdateOffering(false)
-      }
-      const handleUpdateOffering=()=>{
-        setIsAllOffering(false)
-        setIsCreateOffering(false)
-        setIsUpdateOffering(true)
-      }
-      const handleAllOfferings=()=>{
-        setIsAllOffering(true)
-        setIsCreateOffering(false)
-        setIsUpdateOffering(false)
+        localStorage.setItem('offeringRow',params?.row)
       }
   return (
-    <div className='sidenav-users-container'>
-      <div  >
-        <Navbar expand="lg" className="flex-column custom-navbar">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="flex-column">
-            <Nav.Link onClick={handleAllOfferings}>
-              All Offerings
-            </Nav.Link>
-            <Nav.Link onClick={handleCreateOffering} >
-              Create Offering
-            </Nav.Link>
-            <Nav.Link onClick={handleUpdateOffering} >
-              Update Offering
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      </div>
-      {isAllOffering && (
-        <div className='users-container'>
+        <div className='user-container'>
         <div className='headings'>
             <h1 className='main-heading'>All Offerings</h1>
             <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-            {/* <h2 style={{marginRight:'10px'}} className='sub-heading'>Add User</h2>
-            <h2 onClick={()=>navigate('/update_user',{state:dat})} className='sub-heading'>Update User</h2> */}
             </div>
         </div>
+        <div className="test-report-date-filter">
+          <div className="test-report-display-between">
+            Start Date:{"   "}
+            <input
+              type="date"
+              // value={startDate}
+              className="test-report-date-input"
+              onChange={(e) => setStartDate(new Date(e.target.value))}
+              max={new Date().toISOString().split("T")[0]}
+              style={{ marginLeft: "5px" }}
+            />
+          </div>
+          <div className="test-report-display-between">
+            End Date:{" "}
+            <input
+              type="date"
+              // value={endDate}
+              className="test-report-date-input"
+              onChange={(e) => setEndDate(new Date(e.target.value))}
+              max={new Date().toISOString().split("T")[0]}
+              style={{ marginLeft: "5px" }}
+            />
+          </div>
+          <button
+            style={{
+              padding: "1px",
+              width: "60px",
+              backgroundColor: "#004461",
+              color: "#FFFFFF",
+              border: "none",
+              borderRadius: "5px",
+            }}
+            onClick={handleFilter}
+          >
+            Filter
+          </button>
+      </div>
+      {endDate < startDate && endDate && (
+        <p className="error">*End Date Should Be Greater Than Start Date</p>
+      )}
+      <div className="test-report-date-filter">
+          <div className="test-report-display-between">
+              Flooring Price:{"   "}
+              <input
+                  type="number"
+                  value={flooringPrice}
+                  className="test-report-date-input"
+                  onChange={(e) => setFlooringPrice(e.target.value)}
+                  style={{ marginLeft: "5px" }}
+              />
+          </div>
+          <div className="test-report-display-between">
+              Ceiling Price:{"   "}
+              <input
+                  type="number"
+                  value={ceilingPrice}
+                  className="test-report-date-input"
+                  onChange={(e) => setCeilingPrice(e.target.value)}
+                  style={{ marginLeft: "5px" }}
+              />
+          </div>
+          <button
+              style={{
+                  padding: "3px",
+                  width: "80px",
+                  backgroundColor: "#004461",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "5px",
+              }}
+              onClick={handlePriceFilter}
+          >
+              Filter
+          </button>
+      </div>
         <div style={{overflowY:'scroll',height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>
@@ -158,27 +247,12 @@ function AllOffering() {
                         rows={data}
                         columns={columns}
                         onRowClick={onRowHandleClick}
-                        // onRowSelectionModelChange={onRowSelection}
-                        // initialState={{
-                        // pagination: {
-                        //     paginationModel: { page: 0, pageSize: 10 },
-                        // },
-                        // }}
-                        // pageSizeOptions={[5, 10, 15, 20]}
                     />
                 </div>
             ): (
                 "No Data Found"
             )}
         </div>
-    </div>
-      )}
-    {isCreateOffering && (
-      <CreateOffering />
-    )}
-    {isUpdateOffering && (
-      <UpdateOffering offer={dat} />
-    )}
     </div>
   )
 }

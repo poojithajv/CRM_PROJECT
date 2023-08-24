@@ -22,9 +22,9 @@ function AllTaskStatus(props) {
   },[])
   console.log(data.length)
   return (
-    <div>
-      <h1>Task Id: {taskId} Status History</h1>
-      <div className='statuses-container'>
+    <div style={{width:'80vw',height:'90vh',overflowY:'scroll'}}>
+      <h1 className='main-heading1'>Task Id: {taskId} Status History</h1>
+      <div className='statuses-container' style={{overflowY:'scroll'}} >
       {data.length 
         ? data.map((item,index)=>(
           <div className='status-container' key={index}>

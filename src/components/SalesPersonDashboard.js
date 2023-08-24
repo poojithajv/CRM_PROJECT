@@ -1,5 +1,7 @@
 import React,{useState,useEffect} from 'react'
-import {useNavigate,useLocation} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
+import {RiLogoutCircleRLine} from 'react-icons/ri'
+import {IoIosContact} from 'react-icons/io'
 import { GiHamburgerMenu } from "react-icons/gi";
 import Popup from "reactjs-popup";
 import SalesPersonInfo from './SalesPersonInfo';
@@ -13,9 +15,8 @@ import CreateContact from './CreateContact';
 
 const activeClassName = "activeTab";
 function SalesPersonDashboard() {
-  // const location=useLocation()
-  // const [email,setEmail]=useState(location.state)
   const [cursor, setCursor] = useState('default');
+  const [isdash,setIsDash]=useState(false)
   const [isDashboard,setIsDashboard]=useState(false)
   const [isInfo,setIsInfo]=useState(false)
   const [isAllTasks,setIsAllTasks]=useState(false)
@@ -25,6 +26,26 @@ function SalesPersonDashboard() {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [salesPersonId,setSalesPersonId]=useState('')
   // console.log(email)
+
+  useEffect(()=>{
+  try{
+    const fetchUsers=()=>{
+      let userEmail=localStorage.getItem('userEmail')
+        api.get(`/api/getRoleValueAndReportingTo/${userEmail}`)
+      .then(res=>{
+        if (res.data.role==='SalesPerson'){
+          setIsDash(false)
+        }else{
+          setIsDash(true)
+        }
+      }).catch(err => console.log(err.message))
+            }
+            fetchUsers()
+        }
+catch (error) {
+    console.log(error.message);
+  }
+},[])
 
   useEffect(()=>{
     try{
@@ -43,6 +64,7 @@ function SalesPersonDashboard() {
       console.log(error.message);
     }
   },[])
+  console.log(isdash)
   const navigate=useNavigate()
   const handleLogout=()=>{
       let token=localStorage.getItem('token')
@@ -57,49 +79,43 @@ function SalesPersonDashboard() {
       return 'default';
     });
   }
-  const handleDashboard = () => {
-    setIsDashboard(true)
-    setIsInfo(false)
-    setIsAllTasks(false)
-    setIsConatctInfo(false)
-    setIsCreateContact(false)
-    setActiveTab("dashboard");
-  };
-  const handleInfo = () => {
-    setIsDashboard(false)
-    setIsInfo(true)
-    setIsAllTasks(false)
-    setIsConatctInfo(false)
-    setIsCreateContact(false)
-    setActiveTab("info");
-  };
-  const handleAllTasks = () => {
-    setIsDashboard(false)
-    setIsInfo(false)
-    setIsAllTasks(true)
-    setIsConatctInfo(false)
-    setIsCreateContact(false)
-    setActiveTab("allTasks");
-  };
-  const handleContactInfo = () => {
-    setIsDashboard(false)
-    setIsInfo(false)
-    setIsAllTasks(false)
-    setIsConatctInfo(true)
-    setIsCreateContact(false)
-    setActiveTab("contactInfo");
-  };
-  const handleCreateContact=()=>{
-    setIsDashboard(false)
-    setIsInfo(false)
-    setIsAllTasks(false)
-    setIsConatctInfo(false)
-    setIsCreateContact(true)
-    setActiveTab("createContact");
-  }
+  // const handleDashboard = () => {
+  //   setIsDashboard(true)
+  //   setIsInfo(false)
+  //   setIsAllTasks(false)
+  //   setIsConatctInfo(false)
+  //   setIsCreateContact(false)
+  //   setActiveTab("dashboard");
+  // };
+  // const handleInfo=()=>{
+  //   setIsDashboard(false)
+  //   setIsInfo(true)
+  //   setIsAllTasks(false)
+  //   setIsConatctInfo(false)
+  //   setIsCreateContact(false)
+  //   setActiveTab("info");
+  // }
+  // const handleAllTasks = () => {
+  //   setIsDashboard(false)
+  //   setIsAllTasks(true)
+  //   setIsConatctInfo(false)
+  //   setIsCreateContact(false)
+  //   setActiveTab("allTasks");
+  // };
+  // const handleCreateContact=()=>{
+  //   setIsDashboard(false)
+  //   setIsInfo(false)
+  //   setIsAllTasks(false)
+  //   setIsConatctInfo(false)
+  //   setIsCreateContact(true)
+  //   setActiveTab("createContact");
+  // }
   return (
     <div onClick={changeCursor} style={{ cursor: cursor }} className='dashboard-container'>
-      <div className="header-container">
+      {isdash ? (
+        <p>You cannot access this page</p>
+      ):(
+        <div className="header-container">
             {/* header for desktop  with Logo and components Dashboard, Assessments, Test Reports, Student Reports and Sign Out */}
             <div className="nav-container">
               {/* logo */}
@@ -116,32 +132,26 @@ function SalesPersonDashboard() {
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleDashboard}>Dashboard Metrics</p>
-              <p className={
-                  activeTab === "info"
-                    ? `${activeClassName} `
-                    : "desktop-header-navbar-link"
-                }
-                onClick={handleInfo}>My Info</p>
+                >Dashboard Metrics</p>
               <p className={
                   activeTab === "allTasks"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleAllTasks}>My Tasks</p>
+                onClick={()=>navigate('/salesPersonTasks',{state:salesPersonId})}>All Tasks</p>
                 <p className={
                   activeTab === "createContact"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleCreateContact}>Create Contact</p>
-              <p className={
-                  activeTab === "contactInfo"
+                onClick={()=>navigate('/createContact')}>Create Contact</p>
+                <p className={
+                  activeTab === "info"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                onClick={handleContactInfo}>Contact Details</p>
-              <p className='desktop-header-navbar-link' onClick={handleLogout}>Logout</p>
+                onClick={()=>navigate('/myInfo',{state:salesPersonId})}><IoIosContact  size={20}/></p>
+              <p className='desktop-header-navbar-link' onClick={handleLogout}><RiLogoutCircleRLine  size={20}/></p>
             </div>
             {/* nav header for mobile  with Logo and components Dashboard, Assessments, Test Reports, Student Reports and Sign Out */}
             <div className="mobile-header-navbar-container">
@@ -165,27 +175,15 @@ function SalesPersonDashboard() {
                 onClose={() => setIsPopUpOpen(false)}
               >
                 <ul className="mobile-hamburger-menu">
-                  <li className="header-navbar-link" onClick={() => handleDashboard()}>Dashboard Metrics</li>
-                  <li className="header-navbar-link" onClick={() => handleInfo()}>My Info</li>
-                  <li className="header-navbar-link" onClick={() => handleAllTasks()}>My Tasks</li>
-                  <li className="header-navbar-link" onClick={() => handleCreateContact()}>Create Contact</li>
-                  <li className="header-navbar-link" onClick={() => handleContactInfo()}>Contact Details</li>
+                  <li className="header-navbar-link" >Dashboard Metrics</li>
+                  <li className="header-navbar-link" onClick={() => navigate('/salesPersonTasks',{state:salesPersonId})}>My Tasks</li>
+                  <li className="header-navbar-link" onClick={() => navigate('/createContact')}>Create Contact</li>
+                  <li className="header-navbar-link" onClick={() => navigate('/myInfo',{state:salesPersonId})}>Profile</li>
                   <li className="header-navbar-link" onClick={handleLogout}>Logout</li>
                 </ul>
               </Popup>
             </div>
       </div>
-      {isInfo && (
-        <SalesPersonInfo salesPersonId={salesPersonId}/>
-      )}
-      {isAllTasks && (
-        <SalesPersonTasks salesPersonId={salesPersonId}/>
-      )}
-      {isContactInfo && (
-        <SalesPersonContactDetails />
-      )}
-      {isCreateContact && (
-        <CreateContact />
       )}
     </div>
   )

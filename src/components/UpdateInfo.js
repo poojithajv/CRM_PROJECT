@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import './index.css'
 
 function UpdateInfo({userId,data}) {
+  console.log(userId,data)
   const [userData,setUserData]=useState({
     userName:data?.user?.userName,
     email:data?.user?.email,
@@ -16,6 +17,11 @@ function UpdateInfo({userId,data}) {
     setUserData({ ...userData, [name]: value })
   }
 
+  const clearHandler=()=>{
+    if (window.confirm('Are you sure you want to clear all fields?')) {
+      setUserData({userName:'',email:'',mobileNo:'',altMobileNo:''})
+    }
+  }
   const submitHandler = async (e) => {
     try {
       e.preventDefault()
@@ -24,16 +30,17 @@ function UpdateInfo({userId,data}) {
         console.log(userResponse.data);
       }
       toast.success('Info Updated successfully')
+      window.location.reload()
     } catch (error) {
       console.log(error.message);
     }
   }
   return (
     <div>
-      <div className="container" style={{marginTop:'-20px',width:'80vw'}}>
+      <div className="container" >
         <div className="row d-flex justify-content-center">
-          <div className="col-10"> 
-            <div className="card mt-5">
+          <div className="col-12"> 
+            <div className="card mt-5" style={{height:'70vh',overflowY:'scroll'}}>
               <div className="card-header">
                 <h2 className='text-info update-sales'>Update SalesPerson </h2>
               </div>
@@ -63,9 +70,9 @@ function UpdateInfo({userId,data}) {
                     </div>
                     <div className="col-12 mt-4">
                       <div className="input-group d-flex justify-content-center">
-                        <button type="submit" className='btn  btn-success'>Submit</button>
-                        {/* <button className='btn btn-secondary' style={{marginLeft:'20px'}} onClick={clearHandler}>Clear</button> */}
-                        {/* <button className='btn btn-primary' style={{marginLeft:'20px'}} onClick={()=>navigate('/allUsers')}>Back</button> */}
+                        <button type="submit" style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Update</button>
+                        <button type='button' style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>Back</button>
                       </div>
                     </div>
                   </div>

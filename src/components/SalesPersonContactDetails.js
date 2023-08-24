@@ -21,6 +21,7 @@ function SalesPersonContactDetails() {
       console.log(error.message);
     }
   },[])
+  console.log(data)
   return (
     <div className='details-container'>
       <h1 className='contact-heading'>Contact Details</h1>
@@ -65,7 +66,7 @@ function SalesPersonContactDetails() {
               </div>
               <div className="table-data">
                 <p className="th">Source</p>
-                <p className="td">{data.otherSourcetype==='' ? data.source : data.otherSourcetype}</p>
+                <p className="td">{data.otherSourcetype===null ? data.source : data.otherSourcetype}</p>
               </div>
               <div className="table-data">
                 <p className="th">Life Cycle Stage</p>

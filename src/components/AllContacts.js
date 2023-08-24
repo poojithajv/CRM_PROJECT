@@ -135,11 +135,6 @@ function AllContacts() {
              width: 160,
              headerClassName: "table-header",
              cellClassName: "table-cell",
-             // renderCell: (params) => (
-             //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-             //     {params.value}
-             //   </div>
-             // ),
            },
            {
              field: "country",
@@ -147,11 +142,6 @@ function AllContacts() {
              width: 120,
              headerClassName: "table-header",
              cellClassName: "table-cell",
-             // renderCell: (params) => (
-             //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-             //     {params.value}
-             //   </div>
-             // ),
            },
            {
             field: "sourceVal",
@@ -159,11 +149,6 @@ function AllContacts() {
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
           },
           {
             field: "contactDepartment",
@@ -171,23 +156,13 @@ function AllContacts() {
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
           },
           {
-            field: "contactDestination",
-            headerName: "Contact Destination",
+            field: "contactDesignation",
+            headerName: "Contact Designation",
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
           },
           {
             field: "websiteURL",
@@ -195,11 +170,13 @@ function AllContacts() {
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
+          },
+          {
+            field: "socialMediaLink",
+            headerName: "Social Media Link",
+            width: 120,
+            headerClassName: "table-header",
+            cellClassName: "table-cell",
           },
           {
             field: "date",
@@ -207,28 +184,19 @@ function AllContacts() {
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
           },
           {
-            field: "contactCreatedBy",
+            field: "contactCreatedByName",
             headerName: "Contact Created By",
             width: 120,
             headerClassName: "table-header",
             cellClassName: "table-cell",
-            // renderCell: (params) => (
-            //   <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-            //     {params.value}
-            //   </div>
-            // ),
           },
        ];
        const onRowHandleClick=(params)=>{
         setSelectedRow(params.id)
         setDat(params.row)
+        localStorage.setItem('contactRow',JSON.stringify(params?.row))
       }
       const handleIsCreateContact=()=>{
         setIsAllContacts(false)
@@ -247,117 +215,21 @@ function AllContacts() {
       }
       console.log(dat)
   return (
-    <div className='sidenav-users-container'>
-      <div  >
-      <Navbar className="flex-column custom-navbar">
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="flex-column">
-          <Nav.Link onClick={handleAllContacts}>
-            All Contacts
-          </Nav.Link>
-          <Nav.Link onClick={handleIsCreateContact}>
-            Create Contact
-          </Nav.Link>
-          <Nav.Link onClick={handleIsUpdateContact}>
-            Update Contact
-          </Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
-        </div>
-      {isAllContacts && (
-        <div className='users-container'>
+        <div className='user-container'>
         <div className='headings'>
             <h1 className='main-heading'>All Contacts</h1>
             <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-            {/* <h2 style={{marginRight:'10px'}} className='sub-heading'>Add User</h2>
-            <h2 onClick={()=>navigate('/update_user',{state:dat})} className='sub-heading'>Update User</h2> */}
             </div>
         </div>
-        {/* <div className='search-container'>
-          <label htmlFor='searchRole' className='searchLabel'>Search By Role:
-          <input
-              id="searchRole"
-              name="searchRole"
-              value={search.searchRole}
-              type="text"
-              placeholder='Enter Role'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-          <label htmlFor='searchId' className='searchLabel'>Search By ID:
-          <input
-              id="searchId"
-              name="searchId"
-              value={search.searchId}
-              type="text"
-              placeholder='Enter ID'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-          <label htmlFor='searchName' className='searchLabel'>Search By Name:
-          <input
-              id="searchName"
-              name="searchName"
-              value={search.searchName}
-              type="text"
-              placeholder='Enter Name'
-              onChange={handleSearch}
-              style={{
-                marginLeft: "25px",
-              }}
-              className="input-search"
-            />
-          </label>
-        </div> */}
-        {/* <div className='search-container'>
-          <select value={search} onChange={handleSearch}>
-            <option value=''>Select</option>
-            <option value='searchByRole'>Search By Role</option>
-            <option value='searchByUserName'>Search By User Name</option>
-            <option value='searchByManager'>Search By Manager</option>
-          </select>
-        </div> */}
         <div className='search-container'>
-          {/* <div className='search-cont'>
-            <select value={selectedRole} onChange={(e)=>setSelectedRole(e.target.value)} >
-              <option value='' >Select Role</option>
-              {roles.map((item,index)=>
-                <option  key={index}>{item}</option>
-              )}
-            </select>
-            <button type="button" onClick={handleRecords}>
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div> */}
-          {/* <div className='search-cont'>
-            <select value={selectedName} onChange={(e)=>setSelectedName(e.target.value)}>
-              <option key='nam'>Select Name</option>
-              {names.map((item,index)=>
-                <option key={index}>{item}</option>
-              )}
-            </select>
-            <button type="button" onClick={handleNameRecords}>
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </div> */}
           <div className='search-cont'>
-            <select value={selectedManager} onChange={(e)=>setSelectedManager(e.target.value)}>
+            <select className='select' value={selectedManager} onChange={(e)=>setSelectedManager(e.target.value)}>
               <option key='manager'>Select Manager Name</option>
               {managers.map((item,index)=>
                 <option value={item}key={index}>{item}</option>
               )}
             </select>
-            <button type="button" onClick={handleManagerRecords}>
+            <button className='icon' type="button" onClick={handleManagerRecords}>
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
@@ -382,14 +254,6 @@ function AllContacts() {
                 "No Data Found"
             )}
         </div>
-    </div>
-      )}
-      {isCreateContact && (
-        <CreateContact />
-      )}
-      {isUpdateContact && (
-        <UpdateContact contact={dat}/>
-      )}
     </div>
   )
 }

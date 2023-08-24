@@ -9,9 +9,8 @@ import {
   import { Autocomplete, TextField } from "@mui/material";
   import React, { useEffect, useState } from "react";
   import toast from "react-hot-toast";
-  const ChangeSalesPerson = ({taskId}) => {
-    const [openSalesperson, setOpenSalesPerson] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
+  const ChangeSalesPerson = ({taskId,openSalesPerson}) => {
+    const [openSalesperson, setOpenSalesPerson] = React.useState(openSalesPerson);
     const [activeSalesPerson, setActiveSalesPerson] = useState("");
     const [error, setError] = useState(null); // State for storing error messages
     const [allSalesPersons, setAllSalespersons] = useState([]);
@@ -32,7 +31,7 @@ import {
           throw new Error("Network response was not ok");
         }
         toast.success("successfully changed SalesPerson");
-        setOpen(false);
+        setOpenSalesPerson(false)
         console.log(response);
         setError(null); // Clear any previous errors if the request succeeds
       } catch (error) {
@@ -73,25 +72,19 @@ import {
     useEffect(() => {
       getAllSalesPersonByRole();
     }, []);
+    console.log(openSalesperson)
     return (
       <div>
         <Stack spacing={2} width={100}>
           <React.Fragment>
-            <Button
-              style={{ marginBottom: "10px" }}
-              variant="outlined"
-              color="neutral"
-              onClick={() => setOpen(true)}
-            >
-              Change SalesPerson
-            </Button>
-            <Modal open={open} onClose={() => setOpen(false)}>
+            
+            <Modal open={openSalesperson} onClose={() => setOpenSalesPerson(false)}>
               <ModalDialog
                 aria-labelledby="basic-modal-dialog-title"
                 aria-describedby="basic-modal-dialog-description"
                 sx={{ maxWidth: 500 }}
               >
-                <ModalClose onClick={() => setOpen(false)} />
+                <ModalClose onClick={() =>setOpenSalesPerson(false)} />
                 <Typography id="basic-modal-dialog-title" level="h2">
                   Change SalesPerson
                 </Typography>

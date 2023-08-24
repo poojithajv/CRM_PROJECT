@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import api from './../util/api'
 import toast from 'react-hot-toast';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 const initialUser = {
   userName: '', email: '', password: '', role: { statusValue: '' }, mobileNo: '', altMobileNo: ''
@@ -13,7 +13,6 @@ const UserRegister = () => {
   const [user, setUser] = useState(initialUser)
   const [isSalesPerson, setIsSalesPerson] = useState(false)
   const [SalesPerson, setSalesPerson] = useState(initialSalesPerson)
-  const [dataext,setDataExt]=useState([])
   const [extUsers, setExtUsers] = useState([])
   const [reportingTo, setReportingTo] = useState('')
   const [reportingToUsers, setReportingToUsers] = useState([])
@@ -75,6 +74,7 @@ const UserRegister = () => {
         console.log(salesPersonResponse.data);
       }
       toast.success('User registered successfully')
+      window.location.reload()
       setIsSalesPerson(false)
       setSalesPerson(initialSalesPerson)
       setUser(initialUser)
@@ -129,10 +129,10 @@ const UserRegister = () => {
   })
   return (
     <div>
-      <div className="container">
+      <div className="container" >
         <div className="row d-flex justify-content-center">
-          <div className="col-10 ">
-            <div className="card mt-5">
+          <div className="col-12 ">
+            <div className="card mt-5" style={{height:'70vh',overflowY:'auto'}}>
               <div className="card-header">
                 <h2 className='text-info'>Add User </h2>
               </div>
@@ -231,7 +231,8 @@ const UserRegister = () => {
                     <div className="col-12 mt-4">
                       <div className="input-group d-flex justify-content-center">
                         <button type="submit"  style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Submit</button>
-                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear</button>
+                        <button type='button' style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>Back</button>
                       </div>
                     </div>
                   </div>

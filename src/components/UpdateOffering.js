@@ -4,9 +4,6 @@ import {useLocation} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import "./index.css"
 export default function UpdateOffering  ({offer})  {
-    //const {id} = useParams();
-    // const location = useLocation();
-    // const offer = location.state || {};
     const navigate=useNavigate();
     const parseDate = (date) => {
         if (!date || isNaN(new Date(date))) {
@@ -16,14 +13,14 @@ export default function UpdateOffering  ({offer})  {
       };
   //console.log(contact)
   const [formData, setFormData] = useState({
-    offeringCategory:offer.offeringCategory,
-    offeringType : offer.offeringType,
-    offeringName : offer.offeringName,
-    ctc : offer.ctc,
-    projectCost : offer.projectCost,
-    actualCost : offer.actualCost,
-    costType : offer.costType,
-    validTillDate : parseDate(offer.validTillDate)
+    offeringCategory:offer?.offeringCategory,
+    offeringType : offer?.offeringType,
+    offeringName : offer?.offeringName,
+    ctc : offer?.ctc,
+    ceilingPrice : offer?.ceilingPrice,
+    floorPrice : offer?.floorPrice,
+    currency : offer?.currency,
+    validTillDate : parseDate(offer?.validTillDate)
   });
   const handleChange = (e) => {
     e.preventDefault();
@@ -43,9 +40,9 @@ export default function UpdateOffering  ({offer})  {
       },
       offeringName : formData.offeringName,
       ctc : formData.ctc,
-      projectCost : formData.projectCost,
-      actualCost : formData.actualCost,
-      costType : formData.costType,
+      ceilingPrice : formData.ceilingPrice,
+      floorPrice : formData.floorPrice,
+      currency : formData.currency,
       validTillDate : formData.validTillDate
     };
     console.log("Sending updateOffer:", updateOffer);
@@ -61,6 +58,12 @@ export default function UpdateOffering  ({offer})  {
         console.log(error.message);
       }
   };
+
+  const clearHandler=()=>{
+    if (window.confirm('Are you sure you want to clear all fields?')) {
+      setFormData({offeringCategory:'',offeringType:'',offeringName:'',ctc:'',ceilingPrice:'',floorPrice:'',currency:''})
+    }
+  }
   const onSubmit = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -68,10 +71,10 @@ export default function UpdateOffering  ({offer})  {
   };
   return (
     <div>
-      <div className="container">
+      <div className="container" >
         <div className="row d-flex justify-content-center">
-          <div className="col-10 ">
-            <div className="card mt-5">
+          <div className="col-12 ">
+            <div className="card mt-5" style={{height:'70vh',overflowY:'scroll'}}>
               <div className="card-header">
                 <h2 className='text-info'>Update Offering</h2>
               </div>
@@ -95,7 +98,7 @@ export default function UpdateOffering  ({offer})  {
                       </div>
                       <div className="form-group mt-3">
                       <label className="form-label" htmlFor="offeringName">
-                        Offering Name<span>*</span>
+                        Offering Name<span className='required'>*</span>
                       </label>
                       <input className="form-control"
                         type="text"
@@ -108,20 +111,20 @@ export default function UpdateOffering  ({offer})  {
                     </div>
                     <div className="col-md-6 mt-3">
                     <div className="form-group">
-                      <label className="form-label" htmlFor="projectCost">
-                        Project Cost<span>*</span>
+                      <label className="form-label" htmlFor="ceilingPrice">
+                      Ceiling Price<span className='required'>*</span>
                      </label>
                         <input className="form-control"
                         type="number"
-                        id="projectCost"
-                        name="projectCost"
-                        value={formData.projectCost}
+                        id="ceilingPrice"
+                        name="ceilingPrice"
+                        value={formData.ceilingPrice}
                         onChange={handleChange}
-                        placeholder="Project Cost" required />
+                        placeholder="Ceiling Price" required />
                       </div>
                       <div className="form-group mt-3" >
                       <label className="form-label" htmlFor="validTillDate">
-                        Valid Till Date<span>*</span>
+                        Valid Till Date<span className='required'>*</span>
                         </label>
                         <input className="form-control"
                         type="date"
@@ -135,20 +138,20 @@ export default function UpdateOffering  ({offer})  {
                     </div>
                     <div className="col-md-6">
                     <div className="form-group mt-3">
-                      <label className="form-label" htmlFor="actualCost">
-                        Actual Cost<span>*</span>
+                      <label className="form-label" htmlFor="floorPrice">
+                      Floor Price<span className='required'>*</span>
                         </label>
                         <input className="form-control"
                         type="number"
-                        id="actualCost"
-                        name="actualCost"
-                        value={formData.actualCost}
+                        id="floorPrice"
+                        name="floorPrice"
+                        value={formData.floorPrice}
                         onChange={handleChange}
-                        placeholder="Actual Cost" required />
+                        placeholder="Floor Price" required />
                       </div>
                       <div className="form-group mt-3">
                       <label className="form-label" htmlFor="ctc">
-                        CTC<span>*</span>
+                        CTC<span className='required'>*</span>
                         </label>
                         <input className="form-control"
                         type="number"
@@ -162,28 +165,38 @@ export default function UpdateOffering  ({offer})  {
                     </div>
                     <div className='col-md-6'>
                     <div className="form-group mt-3">
-                      <label className="form-label" htmlFor="costType">
-                        Cost Type<span>*</span>
+                      <label className="form-label" htmlFor="currency">
+                        Currency<span className='required'>*</span>
                         </label>
                         <select className="form-control"
                         type="text"
-                        id="costType"
-                        name="costType"
-                        value={formData.costType}
+                        id="currency"
+                        name="currency"
+                        value={formData.currency}
                         onChange={handleChange}
                         placeholder="Cost Type" required>
-                        <option value={""}>Select Cost Type</option>
-                        <option value={"INR"}>INR</option>
-                        <option value={"Dollar"}>Dollar</option>
+                        <option value={""}>Select Currency</option>
+                        <option value={"INR"}>INR "Indian Rupee"</option>
+                        <option value={"USD"}>USD "US Dollar"</option>
+                        <option value={"EUR"}>EUR "EURO"</option>
+                        <option value={"AUD"}>AUD "Australia Dollar"</option>
+                        <option value={"CAD"}>CAD "Canadian Dollar"</option>
+                        <option value={"JPY"}>JPY "Japanese Yen" </option>
+                        <option value={"CHF"}>CHF "Swiss Franc" </option>
+                        <option value={"CNY"}>CNY "China Yuan Renminbi" </option>
+                        <option value={"BZR"}>BZR "Brazilian Real" </option>
+                        <option value={"SEK"}>SEK "Swedish Krona" </option>
+                        <option value={"ZAR"}>ZAR "South African Rand" </option>
+                        <option value={"HKD"}>HKD "Hong Kong Dollar" </option>
                         </select>
                       </div>
                       <div className="form-group mt-3">
-                      <label className="form-label" htmlFor="offeringType">Offering Type</label>
+                      <label className="form-label" htmlFor="offeringType">Offering Type<span className='required'>*</span></label>
                         <select className="form-control"
                                 type="text"
                                 id="offeringType"
                                 name="offeringType"
-                                value={formData.offeringType}
+                                value={formData?.offeringType?.statusValue}
                                 onChange={handleChange}
                                 placeholder="offering Type" required>
                                 <option value={""}>Select option</option>
@@ -194,8 +207,9 @@ export default function UpdateOffering  ({offer})  {
                     </div>
                     <div className="col-12 mt-4">
                       <div className="input-group d-flex justify-content-center">
-                        <button type="submit" className='btn  btn-success'>Update</button>
-                        {/* <button className='btn btn-secondary' style={{marginLeft:'20px'}} onClick={handleClear}>Clear</button> */}
+                        <button type="submit" style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Update</button>
+                        <button type='button' style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>Back</button>
                       </div>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import api from './../util/api'
 import "./index.css";
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ const Notification = () => {
         role:"",
     }
     const [formData,setFormData] = useState(dat);
+    const [notificationTemplates,setNotificationTemplates]=useState(null)
     const [data,setData] = useState([])
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,42 +25,36 @@ const Notification = () => {
     console.log(userResponse)
     if (userResponse.status === 201) {
         alert('Notification Created Successfully')
+        window.location.reload()
     }
 }
     catch (error) {
         console.log(error.message);
       }
   };
-//   const getNotificationTemplate = (role, notificationType) => {
-//     const apiUrl = `/app/notifications/template/${formData.notificationType}/${formData.role}`;
-//     const authToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYWdlbmRyYXRhbmdldGk0ODQ2QGdtYWlsLmNvbSIsImlhdCI6MTY5MTcyNTEwMywiZXhwIjoxNjkxNzQzMTAzfQ.vnqQf26353LQqObO5MNWuuKoLvA3Jmhx4bkECWVISCYKNB6YcJjtW7LCDYSLSR_fPNcBpw6NqTw3VE9i4GXWPw";
-//     fetch(apiUrl, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${authToken}`,
-//       },
-//     })
-//       .then((response) => response.json())
-//       .then((data) => {
-//         console.log("Notification Template:", data);
-//         formData.notificationTemplate=data.notificationTemplate
-// console.log(data)
-//       })
-//       .catch((error) => {
-//         console.error("Error:", error);
-//       });
-//   };
-// const handleNotificationSelection = (notification) => {
-//   setFormData({
-//     notificationType:notification.notificationType ? notification.notificationType.statusValue : "",
-//     //offeringType : notification.offeringType ? notification.offeringType.statusValue : "",
-//     notificationTemplate : notification.notificationTemplate,
-//     remindBefore : notification.remindBefore,
-//     subject : notification.subject,
-//     role : notification.role,
-//   })
-// }
+  useEffect(() => {
+    // Fetch the template list here and update the state
+    const getNotificationTemplate = () => {
+      const apiUrl = `app/notifications/getalltemplates`;
+      const authToken = localStorage.getItem('token')
+      fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setNotificationTemplates(result)
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    };
+getNotificationTemplate()
+}, []);
 const handleSendNotification =()=>{
   const NotificationOnj = {
     notificationType: {
@@ -86,10 +81,10 @@ const handleSendNotification =()=>{
   }
   return (
     <div>
-      <div className="container">
+      <div className="container" >
         <div className="row d-flex justify-content-center">
-          <div className="col-10 ">
-            <div className="card mt-5">
+          <div className="col-12 ">
+            <div className="card mt-5" style={{height:'70vh',overflowY:'scroll'}}>
               <div className="card-header">
                 <h2 className='text-info'>Add Notification</h2>
               </div>
@@ -99,7 +94,7 @@ const handleSendNotification =()=>{
                     <div className="col-md-6 mt-3">
                       <div className="form-group">
                       <label className="form-label" htmlFor="notificationType">
-                            Notification Type<span>*</span>
+                            Notification Type<span className='required'>*</span>
                         </label>
                         <select className="form-control"
                             type="text"
@@ -116,21 +111,25 @@ const handleSendNotification =()=>{
                       <div className="form-group mt-3">
                       <label className="form-label" htmlFor="notificationTemplate">
                             Notification Template<span>*</span>
-                        </label>
-                        <input className="form-control"
-                        type="text"
-                        id="notificationTemplate"
-                        // onClick={getNotificationTemplate}
-                        name="notificationTemplate"
-                        value={formData.notificationTemplate}
-                        onChange={handleChange}
-                        placeholder="Notification Template" required />
+                                    </label>
+                                    <select value={formData.notificationTemplate} className='form-select' name='notificationTemplate' id='notificationTemplate' onChange={handleChange}>
+                                      <option value='' hidden>Select</option>
+                                      {
+                                        notificationTemplates && notificationTemplates.map((notification,index)=>{
+                                          return(
+                                            <option key={index} value={notification.notificationTemplate
+                                            }>{notification.notificationTemplate
+                                            }</option>
+                                          )
+                                        })
+                                      }
+                                    </select>
                       </div> 
                     </div>
                     <div className="col-md-6 mt-3">
                     <div className="form-group">
                     <label className="form-label" htmlFor="remindBefore">
-                            Remind Before<span>*</span>
+                            Remind Before<span className='required'>*</span>
                     </label>
                     <input className="form-control"
                     type="date"
@@ -142,7 +141,7 @@ const handleSendNotification =()=>{
                       </div>
                       <div className="form-group mt-3" >
                       <label className="form-label" htmlFor="subject">
-                            Subject <span>*</span>
+                            Subject <span className='required'>*</span>
                         </label>
                         <input className="form-control"
                         type="text"
@@ -156,7 +155,7 @@ const handleSendNotification =()=>{
                     <div className="col-md-6">
                     <div className="form-group mt-3">
                     <label className="form-label" htmlFor="role">
-                        Role<span>*</span>
+                        Role<span className='required'>*</span>
                     </label>
                     <select className="form-control"
                         type="text"
@@ -173,8 +172,9 @@ const handleSendNotification =()=>{
                     </div>
                     <div className="col-12 mt-4">
                       <div className="input-group d-flex justify-content-center">
-                        <button type="submit" className='btn  btn-success' onClick={handleSendNotification}>Submit</button>
-                        <button className='btn btn-secondary' style={{marginLeft:'20px'}} onClick={handleClear}>Clear</button>
+                        <button type="submit" style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={handleSendNotification}>Submit</button>
+                        <button type='button'  style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={handleClear}>Clear</button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>Back</button>
                       </div>
                     </div>
                   </div>
