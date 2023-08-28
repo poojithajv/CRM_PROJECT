@@ -50,7 +50,7 @@ export default function HomeNotification() {
         {
           field: "notificationType",
           headerName: "Notification Type",
-          width: 130,
+          width: 180,
           cellClassName: "table-cell",
           headerClassName: "table-header",
           renderCell: (params) => (
@@ -64,7 +64,7 @@ export default function HomeNotification() {
         {
           field: "notificationTemplate",
           headerName: "Notification Template",
-          width: 160,
+          width: 250,
           cellClassName: "table-cell",
           headerClassName: "table-header",
         },
@@ -78,14 +78,14 @@ export default function HomeNotification() {
           {
             field: "subject",
             headerName: "Subject",
-            width: 130,
+            width: 160,
             cellClassName: "table-cell",
             headerClassName: "table-header",
           },
           {
             field: "role",
             headerName: "Role",
-            width: 130,
+            width: 160,
             cellClassName: "table-cell",
             headerClassName: "table-header",
           },

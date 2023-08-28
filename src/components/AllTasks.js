@@ -42,16 +42,6 @@ function AllTasks() {
     const [allStatus, setAllStatus] = useState([]);
     const [layout, setLayout] = React.useState(undefined);
     const [updateLayout, setUpdateLayout] = useState(undefined);
-    const [requiredData, setRequiredData] = useState([]);
-    const [statusData,setStatusData]=useState(([]))
-    const [isAllTasks,setIsAllTasks]=useState(false)
-    const [isCreateTask,setIsCreateTask]=useState(false)
-    const [isAllTaskStatus,setIsAllTaskStatus]=useState(false)
-    const [isTaskLatest,setIsTaskStatus]=useState(false)
-    const [isUpdateTask,setIsUpdateTask]=useState(false)
-    const [isChangeContact,setIsChangeContact]=useState(false)
-    const [isChangeSalesPerson,setIsChangeSalesPerson]=useState(false)
-    const [isChangeSalesPersonContact,setIsChangeSalesPersonContact]=useState(false)
     const [taskId,setTaskId]=useState('')
     const [activeDropDownStatus, setActiveDropDownStatus] = useState("");
     const [allActiveStatus, setAllActiveStatus] = useState([]);
@@ -361,7 +351,7 @@ function AllTasks() {
         {
           field: "taskDescription",
           headerName: "Task Description",
-          width: 160,
+          width: 300,
           headerClassName: "table-header",
           cellClassName: "table-cell",
         },
@@ -393,7 +383,6 @@ function AllTasks() {
       console.log(params.row.taskId)
       setTaskId(params.row.taskId)
       setTimeout(() => {
-        console.log('hi')
         latestStatusByTask(params.row.taskId)
           .then((latestStatusData) => {
             setLatestTaskStatus(latestStatusData);
@@ -417,23 +406,39 @@ function AllTasks() {
         <div>
           <h4 className="text-center"> Selected Task</h4>
           <div className="selectedTask-container">
-            <div>
+            <div className='details-container'>
+            <div style={{marginLeft:'20px'}}>    
               <p>
-                <b>Task Status :</b>
+                <b>Sales Person : </b> {dat.salesPersonName}
+              </p>
+              <p>
+                <b>Contact : </b> {dat?.contactId?.firstName+' '+dat?.contactId?.lastName}
+              </p>
+              <p>
+                <b>Assigned By : </b> {dat?.assignedManager}
+              </p>
+              <p>
+                <b>Description : </b> {dat?.taskDescription}
+              </p>
+            </div>
+            <div style={{marginLeft:'20px'}}>
+            <p>
+                <b>Task Status : </b>
                 {latestTaskStatus.taskStatus?.statusValue}
               </p>
               <p>
-                <b>Sales Person :</b> {dat.salesPersonName}
+                <b>Task Outcome : </b>
+                {latestTaskStatus.taskOutcome?.statusValue}
               </p>
               <p>
-                <b>Contact :</b> {dat?.contactId?.firstName+' '+dat?.contactId?.lastName}
+                <b>Start Date : </b>
+                {dat?.startDate}
               </p>
               <p>
-                <b>Assigned By :</b> {dat?.assignedManager}
+                <b>Due Date : </b>
+                {dat?.dueDate}
               </p>
-              <p>
-                <b>Description :</b> {dat?.taskDescription}
-              </p>
+            </div>
             </div>
             <div>
               <Stack
@@ -470,10 +475,6 @@ function AllTasks() {
                       <ModalClose />
                       <div>
                         <p>
-                          <b>Task Status :</b>
-                          {latestTaskStatus.taskStatus?.statusValue}
-                        </p>
-                        <p>
                           <b>Sales Person :</b> {dat.salesPersonName}
                         </p>
                         <p>
@@ -484,6 +485,22 @@ function AllTasks() {
                         </p>
                         <p>
                           <b>Description :</b> {dat.taskDescription}
+                        </p>
+                        <p>
+                          <b>Task Status : </b>
+                          {latestTaskStatus.taskStatus?.statusValue}
+                        </p>
+                        <p>
+                          <b>Task Outcome : </b>
+                          {latestTaskStatus.taskOutcome?.statusValue}
+                        </p>
+                        <p>
+                          <b>Start Date : </b>
+                          {dat?.startDate}
+                        </p>
+                        <p>
+                          <b>Due Date : </b>
+                          {dat?.dueDate}
                         </p>
                       </div>
                       <List
@@ -744,7 +761,7 @@ function AllTasks() {
       <br />
       <div className="test-report-date-filter">
         <select
-          className=""
+        className='status-select'
           value={activeDropDownStatus}
           onChange={(e) => setActiveDropDownStatus(e.target.value)}
           required
@@ -796,7 +813,7 @@ function AllTasks() {
       {endDate < startDate && endDate && (
         <p className="error">*End Date Should Be Greater Than Start Date</p>
       )}
-      <div className='search-container'>
+      {/* <div className='search-container'>
         <div className='search-cont'>
           <select className='select' value={selectedManager} onChange={(e)=>setSelectedManager(e.target.value)}>
             <option key='manager'>Select Manager Name</option>
@@ -808,7 +825,7 @@ function AllTasks() {
             <i class="fa fa-search" aria-hidden="true"></i>
           </button>
         </div>
-      </div>
+      </div> */}
       <div style={{overflowY:'scroll',height:'400px'}}>
           {data.length > 0 ? (
               <div className='table'>

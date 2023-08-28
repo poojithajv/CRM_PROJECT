@@ -186,9 +186,9 @@ const SalesPersonData = () =>{
             </div>
             
         </div>
-        <div className='search-container'>
+        {/* <div className='search-container'>
           <input type="text" name="sp-name" id="sp-name" className='inp' list='sp_name' onChange={nameSearchHandler} placeholder='Search by SalesPerson name' />
-        </div>
+        </div> */}
         {/* <div className='search-container'>
            <div className='search-cont'>
             <select className='select' value={selectedName} onChange={(e)=>setSelectedName(e.target.value)} >

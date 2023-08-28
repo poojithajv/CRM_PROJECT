@@ -83,7 +83,7 @@ function SalesPersonTasks() {
    useEffect(() => {
     if (activeDropDownStatus!=='') {
       console.log(activeDropDownStatus)
-      fetch(`/task/getAllTaskByStatus/${activeDropDownStatus}`)
+      fetch(`task/getAllTaskBySalespersonIdAndStatus/${salesPersonId}/${activeDropDownStatus}`)
         .then((response) => response.json())
         .then((data) => {
           // Add an "id" field to each object and start with 1
@@ -486,7 +486,7 @@ function SalesPersonTasks() {
       <br />
       <div className="test-report-date-filter">
         <select
-          className=""
+          className='status-select'
           value={activeDropDownStatus}
           onChange={(e) => setActiveDropDownStatus(e.target.value)}
           required

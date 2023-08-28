@@ -116,48 +116,24 @@ function AllOpportunities() {
              </div>
            ),
          },
-        //  {
-        //      field: "opportunityCreatedDate",
-        //      headerName: "Opportunity Created Date",
-        //      width: 160,
-        //      headerClassName: "table-header",
-        //      cellClassName: "table-cell",
-        //      renderCell: (params) => (
-        //        <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-        //          {params.value}
-        //        </div>
-        //      ),
-        //    },
-          //  {
-          //    field: "opportunityType",
-          //    headerName: "Opportunity Type",
-          //    width: 160,
-          //    headerClassName: "table-header",
-          //    cellClassName: "table-cell",
-          //    renderCell: (params) => (
-          //      <div style={{ whiteSpace: "wrap", lineHeight: "1" }}>
-          //        {params.value}
-          //      </div>
-          //    ),
-          //  },
            {
              field: "contactName",
              headerName: "Contact Name",
-             width: 160,
+             width: 200,
              headerClassName: "table-header",
              cellClassName: "table-cell",
            },
            {
              field: "contactEmail",
              headerName: "Contact Email",
-             width: 160,
+             width: 200,
              headerClassName: "table-header",
              cellClassName: "table-cell",
            },
            {
              field: "offeringName",
              headerName: "Offering Name",
-             width: 120,
+             width: 200,
              headerClassName: "table-header",
              cellClassName: "table-cell",
            },
@@ -231,14 +207,12 @@ function AllOpportunities() {
       }
 
   return (
-        <div className='user-container'>
-        <div className='headings'>
-            <h1 className='main-heading'>All Opportunities</h1>
-            <div>
-              <button onClick={()=>navigate('/allSubOpportunities')}>All Sub Opportunities</button>
-            </div>
+      <div className='user-container'>
+        <div className='heading1'>
+            <h1 className='main-heading1'>All Opportunities</h1>
+            <button className='sub-btn' onClick={()=>navigate('/allSubOpportunities')}>All Sub Opportunities</button>
         </div>
-        <div className='d-flex align-items-center '>
+        {/* <div className='d-flex align-items-center '>
                   <input onChange={contactSearchHandler} type="text" name='contact-name' id='contact-name' className='inp' list='contact_name' placeholder='Search by contact name' />
                   <datalist id='contact_name'>
                     {
@@ -259,7 +233,7 @@ function AllOpportunities() {
                       })
                     }
                   </datalist>
-                </div>
+        </div> */}
         <div style={{overflowY:'scroll',height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>

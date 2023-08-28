@@ -248,7 +248,7 @@ function Dashboard() {
               />
             </div>
             <div className="desktop-header-navbar-container">
-              <p className={
+              <p onClick={()=>navigate('/adminDashboardMetrics')} className={
                   activeTab === "dashboard"
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"

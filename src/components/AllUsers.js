@@ -13,6 +13,7 @@ import './index.css'
 function AllUsers() {
   const [dat,setDat]=useState([])
     const [users,setUsers]=useState([])
+    const [usersList,setUsersList]=useState([])
     const [rolesData,setRolesData]=useState([])
     const [namesData,setNamesData]=useState([])
     const [managerData,setManagerData]=useState([])
@@ -29,6 +30,7 @@ function AllUsers() {
                 api.get('/api/getAllUsersNDtos')
                 .then(res=>{
                     setUsers(res.data)
+                    setUsersList(res.data)
                     console.log(res.data)
                 }).catch(err => console.log(err.message))
             }
@@ -51,6 +53,35 @@ function AllUsers() {
         setUsers(res.data)
         console.log(res.data)
     }).catch(err => console.log(err.message))
+      }
+    }
+
+    const roleSearchHandler=(e)=>{
+      if (e.target.value.length > 2) {
+        let regExp = new RegExp(`^${e.target.value}`, 'i')
+        setUsers(usersList.filter(user => {
+          return (
+            //  === regExp
+            regExp.test(user.role.toLowerCase())
+          );
+        }))
+      }
+      if (e.target.value.length < 3) {
+        setUsers(usersList)
+      }
+    }
+    const nameSearchHandler=(e)=>{
+      if (e.target.value.length > 2) {
+        let regExp = new RegExp(`^${e.target.value}`, 'i')
+        setUsers(usersList.filter(user => {
+          return (
+            //  === regExp
+            regExp.test(user.userName.toLowerCase())
+          );
+        }))
+      }
+      if (e.target.value.length < 3) {
+        setUsers(usersList)
       }
     }
 
@@ -214,7 +245,11 @@ function AllUsers() {
             <button onClick={viewDetails}>View</button>
             </div>
         </div>
-        <div className='search-container'>
+        {/* <div className='search-container'>
+          <input type="text" name="user-role" id="user-role" className='inp' list='role' onChange={roleSearchHandler} placeholder='Search by User Role' />
+          <input type="text" name="user-name" id="user-name" className='inp' list='name' onChange={nameSearchHandler} placeholder='Search by User Name' />
+        </div> */}
+        {/* <div className='search-container'>
            <div className='search-cont'>
             <select className='select' value={selectedRole} onChange={(e)=>setSelectedRole(e.target.value)} >
               <option value='' >Select Role</option>
@@ -248,7 +283,7 @@ function AllUsers() {
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
-          </div>
+          </div> */}
         <div style={{overflowY:'scroll',height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>

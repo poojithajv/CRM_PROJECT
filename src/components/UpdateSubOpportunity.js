@@ -123,8 +123,9 @@ const UpdateOppSub = () => {
                     </div>
                   </div>
                   <div className="input-group mt-4 d-flex justify-content-center">
-                    <input type="submit" value={'Submit'} className='btn btn-success' />
-                    <button onClick={clearHandler} className='btn btn-secondary'>Clear</button>
+                  <button type='submit' style={{marginRight:'20px',marginBottom:'10px',width:'80px'}}>Update</button>
+                        <button type='button' style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={clearHandler}>Clear <i className="fa-solid fa-rotate"></i></button>
+                        <button style={{marginRight:'20px',marginBottom:'10px',width:'80px'}} onClick={()=>window.location.reload()}>Back</button>
                   </div>
                 </form>
             </div>

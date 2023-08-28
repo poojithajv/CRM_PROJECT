@@ -22,6 +22,7 @@ import ContactBySalesPerson from './components/ContactBySalesPerson'
 import SalesPersonTasks from './components/SalesPersonTasks';
 import TaskModule from './components/TaskModule';
 import OpportunityModule from './components/OpportunityModule';
+import AdminDashboardMetrics from './components/AdminDashboardMetrics';
 
 
 function App() {
@@ -54,10 +55,9 @@ function App() {
           <Route path='/salesPersonTasks' element={isAuthenticated ? <SalesPersonTasks /> : <Navigate to='/' /> }/>
           <Route path='/myInfo' element={isAuthenticated ? <SalesPersonInfoModule /> : <Navigate to='/' />} />
           <Route path='/createContact' element={isAuthenticated ? <ContactBySalesPerson /> : <Navigate to='/' />} />
-          {/* <Route path='/sales_person' element={isAuthenticated ? <SalesPerson /> : <Navigate to='/' />} />
-          <Route path='/opportunity' element={isAuthenticated ? <Opportunity /> : <Navigate to='/' />} /> */}
           <Route path='/dashboard' element={ <Dashboard /> } />
           <Route path='/salesPersonDashboard' element={isAuthenticated ? <SalesPersonDashboard />  : <Navigate to='/' />} />
+          <Route path='/adminDashboardMetrics' element={isAuthenticated ? <AdminDashboardMetrics /> : <Navigate to='/' />} />
         </Routes>
       </BrowserRouter>
     </div>

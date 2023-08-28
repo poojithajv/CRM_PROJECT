@@ -201,13 +201,13 @@ function AllOffering() {
           >
             Filter
           </button>
-      </div>
-      {endDate < startDate && endDate && (
-        <p className="error">*End Date Should Be Greater Than Start Date</p>
-      )}
+        </div>
+        {endDate < startDate && endDate && (
+          <p className="error">*End Date Should Be Greater Than Start Date</p>
+        )}
       <div className="test-report-date-filter">
           <div className="test-report-display-between">
-              Flooring Price:{"   "}
+              Floor Price:{"   "}
               <input
                   type="number"
                   value={flooringPrice}

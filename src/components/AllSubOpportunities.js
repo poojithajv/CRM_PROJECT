@@ -123,12 +123,15 @@ const OpportunitySubList = () => {
       {updateSubOpportunity ? (
         <UpdateSubOpportunity />
       ): (
+        <div style={{padding:'5%',height:'90vh'}}>
         <div>
-        <div>
+          <div className='heading1'>
       <h2 className="text-info">Opportunity Details</h2>
-      <div>
-        {oppSubList?.length===1  && <button onClick={handleUpdateSubOpportunity}>Update</button>}
-        <button onClick={()=>navigate('/allOpportunities')}>Opportunity List</button>
+      <div className='btns-container'>
+        {oppSubList?.length===1  && <button  onClick={handleUpdateSubOpportunity}>Update</button>}
+        <button  onClick={()=>navigate('/allOpportunities')}>Opportunity List</button>
+        </div>
+        </div>
         <div className="card mb-3">
             <div className="card-body">
               <div className="row">
@@ -142,7 +145,6 @@ const OpportunitySubList = () => {
               </div>
             </div>
           </div>
-      </div>
       </div>
       <div className='user-container'>
       <div className='headings'>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = { email: '', otp: '', newPassword: '', confirmPassword: '' }
 const ForgotPassword = () => {
+	const navigate=useNavigate()
 	const [userDetails, setUserDetails] = useState(initialState)
 	const [verified, setVerified] = useState(false)
 
@@ -34,6 +36,7 @@ const ForgotPassword = () => {
 			.then(res => {
 				setUserDetails(initialState)
 				toast.success('Password reset successfully')
+				navigate('/')
 			}).catch(err => console.log(err.message))
 	}
 	const showPassword = (inputId) => {
@@ -80,6 +83,7 @@ const ForgotPassword = () => {
 											<span type='button' onClick={() => showPassword('confirmPassword')}><i className="bi bi-eye-fill"></i></span>
 										</div>
 										<button type='submit' className='btn btn-success reset_password'>Reset Password</button>
+										<button type='button' onClick={()=>navigate('/')}>Back</button>
 									</div>
 								</form>
 							) : ''

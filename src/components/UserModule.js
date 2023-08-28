@@ -1,4 +1,5 @@
 import React, { useState} from 'react'
+import { useLocation } from 'react-router-dom';
 import AllUsers from './AllUsers';
 import UserRegister from './UserRegister';
 import Dashboard from './Dashboard';
@@ -6,6 +7,9 @@ import EditUser from './EditUser';
 import './index.css'
 
 function UserModule() {
+  const location=useLocation()
+  const [activeTab]=useState(location.state)
+  console.log(activeTab)
     const [isCreateUser,setIsCreateUser]=useState(false)
     const [isUpdateUser,setIsUpdateUser]=useState(false)
       const handleCreateUser=()=>{
@@ -18,7 +22,7 @@ function UserModule() {
       }
   return (
     <div>
-      <Dashboard />
+      <Dashboard active={activeTab}/>
     <div className='users-container'>
       <div className='buttons'>
         <button style={{backgroundColor:'#1d1a69'}} className='userbtn' onClick={handleCreateUser}>Create User</button>

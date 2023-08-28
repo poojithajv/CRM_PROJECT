@@ -221,7 +221,7 @@ function AllContacts() {
             <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
             </div>
         </div>
-        <div className='search-container'>
+        {/* <div className='search-container'>
           <div className='search-cont'>
             <select className='select' value={selectedManager} onChange={(e)=>setSelectedManager(e.target.value)}>
               <option key='manager'>Select Manager Name</option>
@@ -233,7 +233,7 @@ function AllContacts() {
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>
-        </div> 
+        </div>  */}
         <div style={{overflowY:'scroll',height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>
