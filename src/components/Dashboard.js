@@ -302,6 +302,12 @@ function Dashboard() {
                     : "desktop-header-navbar-link"
                 }
                 >Customer</p>
+                <p onClick={()=>navigate('/reports')} className={
+                  activeTab === "customer"
+                    ? `${activeClassName} `
+                    : "desktop-header-navbar-link"
+                }
+                >Report</p>
               {/* <p className='desktop-header-navbar-link' >Logout</p> */}
               <p onClick={()=>navigate('/profileModule',{state:profileData})} className={
                   activeTab === "profile"
@@ -345,6 +351,7 @@ function Dashboard() {
                   <li className="header-navbar-link" onClick={()=>navigate('/allOpportunities')}>Opportunity</li>
                   <li className="header-navbar-link" onClick={()=>navigate('/allNotifications')}>Notification</li>
                   <li className="header-navbar-link" onClick={()=>navigate('/allCustomers')}>Customer</li>
+                  <li className="header-navbar-link" onClick={()=>navigate('/reports')}>Report</li>
                   <li className="header-navbar-link" onClick={()=>navigate('/profileModule',{state:profileData})}>Profile</li>
                   <li className="header-navbar-link" onClick={handleLogout}>Logout</li>
                 </ul>

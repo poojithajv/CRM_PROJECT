@@ -54,7 +54,7 @@ const OpportunitySubList = () => {
        cellClassName: "table-cell",
      },
      {
-       field: "opportunityCreatedDate",
+       field: "opportunityStatusDate",
        headerName: "Opportunity Size",
        width: 160,
        headerClassName: "table-header",

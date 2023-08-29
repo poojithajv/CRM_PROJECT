@@ -663,6 +663,11 @@ li:hover {
   display: flex;
   flex-direction: row;
 }
+.dash-heading{
+  margin-bottom: 20px;
+  font-size: 35px;
+  font-weight: bold;
+}
 @media screen and (max-width:768px){
   .selectedTask-container{
     height: 550px;
@@ -681,14 +686,13 @@ li:hover {
 .mobile-sm-container{
   display: none;
 }
-@media screen and (max-width:767px) {
+@media screen and (max-width:768px) {
   .desktop-container{
     display: none;
   }
   .mobile-container{
     display: block;
     margin: auto;
-    margin-left: 0px;
   }
 }
 @media screen and (max-width:300px){
@@ -716,4 +720,21 @@ li:hover {
 .barchart {
   display: flex;
   flex-direction: column;
+  margin-top: 15px;
+}
+.dash-container{
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.customer-report{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.customer-card-container{
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 5px 5px #010000;
 }

@@ -1,9 +1,12 @@
 import React, { useState , useEffect} from 'react';
 import api from './../util/api'
+import toast from 'react-hot-toast'
 import {useLocation} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import "./index.css"
-export default function UpdateOffering  ({offer})  {
+export default function UpdateOffering  ()  {
+  const offer=JSON.parse(localStorage.getItem('offeringRow'))
+  console.log(offer.offeringType)
     const navigate=useNavigate();
     const parseDate = (date) => {
         if (!date || isNaN(new Date(date))) {
@@ -51,7 +54,8 @@ export default function UpdateOffering  ({offer})  {
         const response=await api.put(`/OfferingController/update_offering_by_offeringId/${offer.offeringId}`,updateOffer)
         console.log(response)
         if (response.status===200){
-            alert('Data Updated Successfully')
+           toast('Data Updated Successfully')
+           window.location.reload()
         }
         
     }catch (error) {
@@ -196,7 +200,7 @@ export default function UpdateOffering  ({offer})  {
                                 type="text"
                                 id="offeringType"
                                 name="offeringType"
-                                value={formData?.offeringType?.statusValue}
+                                value={formData?.offeringType}
                                 onChange={handleChange}
                                 placeholder="offering Type" required>
                                 <option value={""}>Select option</option>

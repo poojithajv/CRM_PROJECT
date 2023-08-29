@@ -54,7 +54,7 @@ function UpdateInfo({userId,data}) {
                         <input type="text" name="userName" id="userName" value={userData.userName} onChange={changeHandler} className='form-control' pattern='[A-Z a-z]{3,}' title="Name should contain alphabets only and minimum three characters" />
                       </div>
                       <div className='form-group mt-3'>
-                      <label className='label' htmlFor="email">Status <span className='required'>*</span></label>
+                      <label className='label' htmlFor="email">Email <span className='required'>*</span></label>
                       <input type="email" name="email" id="email" value={userData.email} onChange={changeHandler} className='form-control' pattern='[a-z0-9._%+\-]+@[a-z0-9\-]+\.(in|com)$' title="Please enter valid email address" required />
                       </div>
                     </div>

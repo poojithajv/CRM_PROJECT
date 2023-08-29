@@ -5,8 +5,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
-import UserRegister from './UserRegister';
-import EditUser from './EditUser';
 import api from './../util/api'
 import './index.css'
 

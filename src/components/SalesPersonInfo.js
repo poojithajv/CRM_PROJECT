@@ -58,8 +58,8 @@ function SalesPersonInfo({salesPersonId}) {
               <p className="td">{data.role}</p>
             </div>
             <div className="table-data1">
-              <p className="th">Target</p>
-              <p className="td">{data.target}</p>
+              <p className="th">Max Target</p>
+              <p className="td">{data.maxTarget}</p>
             </div>
             <div className="table-data1">
               <p className="th">Frequency</p>
@@ -70,8 +70,8 @@ function SalesPersonInfo({salesPersonId}) {
               <p className="td">{data.currency}</p>
             </div>
             <div className="table-data1">
-              <p className="th">Amount</p>
-              <p className="td">{data.amount}</p>
+              <p className="th">Threshold</p>
+              <p className="td">{data.threshold}</p>
             </div>
             <div className="table-data1">
               <p className="th">Duration</p>

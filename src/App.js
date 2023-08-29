@@ -23,6 +23,8 @@ import SalesPersonTasks from './components/SalesPersonTasks';
 import TaskModule from './components/TaskModule';
 import OpportunityModule from './components/OpportunityModule';
 import AdminDashboardMetrics from './components/AdminDashboardMetrics';
+import SalesPersonDashboardMetrics from './components/SalesPersonDashboardMetrics'
+import Report from './components/Report'
 
 
 function App() {
@@ -58,6 +60,8 @@ function App() {
           <Route path='/dashboard' element={ <Dashboard /> } />
           <Route path='/salesPersonDashboard' element={isAuthenticated ? <SalesPersonDashboard />  : <Navigate to='/' />} />
           <Route path='/adminDashboardMetrics' element={isAuthenticated ? <AdminDashboardMetrics /> : <Navigate to='/' />} />
+          <Route path='/salesPersonDashboardMetrics' element={isAuthenticated ? <SalesPersonDashboardMetrics /> : <Navigate to ='/' />} />
+          <Route path='/reports' element={isauthenticated ? <Report /> : <Navigate to='/' />} />
         </Routes>
       </BrowserRouter>
     </div>

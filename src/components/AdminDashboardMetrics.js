@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react'
 import Dashboard from './Dashboard'
+import { format } from 'date-fns';
 import api from './../util/api'
 import {
     BarChart,
@@ -21,8 +22,8 @@ function AdminDashboardMetrics() {
     const currentDate1 = new Date()
     const year2 = currentDate.getFullYear();
     const month2 = currentDate.getMonth()
-    const lastDayOfMonth = new Date(year2, month2 + 1, 0);
-    const formattedLastDay = `${year2}-${(month2 + 1).toString().padStart(2, '0')}-${lastDayOfMonth.getDate().toString().padStart(2, '0')}`;
+    const currentDayOfMonth = new Date();
+    const formattedLastDay = `${year2}-${(month2 + 1).toString().padStart(2, '0')}-${currentDayOfMonth.getDate().toString().padStart(2, '0')}`;
     const[deal,SetDeal]  = useState([])
     const dateObject =  new Date()
     const [opportunities ,setOpportunities] = useState([])
@@ -35,6 +36,7 @@ function AdminDashboardMetrics() {
     const [customers,SetCustomers]  = useState([])
 
 
+    console.log(startDate,endDate)
     // handleFilter function used to filter the all tests data responses using start date and end date
     useEffect(()=>{
       var url  =  `/app/getAllOpportuntiesByDate/${startDate}/${endDate}/opportunity`
@@ -94,14 +96,15 @@ function AdminDashboardMetrics() {
     }).catch(error => ({
     }));
     api.get(contactsurl).then(responseJson => {
+      console.log(responseJson)
     SetContacts(responseJson.data)
   }).catch(error => ({
   }));
     }
-      const opordata =  oppSubList?.filter((item,index)=>item.status.statusValue ==="Opportunity" ? opportunities.push(item.status.statusValue):"")
-      const yeardata = oppSubList?.filter((item,index)=>item.status.statusValue ==="Opportunity" ? years.push(item.status.statusValue,item.opportunityCreatedDate):"")
-        const yearsData = ([...new Set(years)])
-        const year = yearsData[1];
+      // const opordata =  oppSubList?.filter((item,index)=>item.status.statusValue ==="Opportunity" ? opportunities.push(item.status.statusValue):"")
+      // const yeardata = oppSubList?.filter((item,index)=>item.status.statusValue ==="Opportunity" ? years.push(item.status.statusValue,item.opportunityCreatedDate):"")
+        // const yearsData = ([...new Set(years)])
+        // const year = yearsData[1];
       const opor =  opportunities.length
         const deals =  deal.length
         let sum = 0
@@ -143,8 +146,8 @@ function AdminDashboardMetrics() {
   return (
     <div>
         <Dashboard />
-        <div>
-        <h3>Dashboard Metrics</h3>
+        <div className='dash-container'>
+        <h3 className='dash-heading'>Dashboard Metrics</h3>
         <div className="test-report-date-filter">
           <div className="test-report-display-between">
             Start Date:{"   "}
@@ -152,7 +155,7 @@ function AdminDashboardMetrics() {
               type="date"
               value={startDate}
               className="test-report-date-input"
-              onChange={(e) => setStartDate(new Date(e.target.value))}
+              onChange={(e) => setStartDate(format(new Date(e.target.value),'yyyy-MM-dd'))}
               max={new Date().toISOString().split("T")[0]}
               style={{ marginLeft: "5px" }}
             />
@@ -163,7 +166,7 @@ function AdminDashboardMetrics() {
               type="date"
               value={endDate}
               className="test-report-date-input"
-              onChange={(e) => setEndDate(new Date(e.target.value))}
+              onChange={(e) => setEndDate(format(new Date(e.target.value),'yyyy-MM-dd'))}
               max={new Date().toISOString().split("T")[0]}
               style={{ marginLeft: "5px" }}
             />
@@ -283,7 +286,7 @@ function AdminDashboardMetrics() {
                 <p>Contacts/Customers/Lost</p>
                 <div className='desktop-container'>
                 <BarChart
-                  width={400}
+                  width={390}
                   height={300}
                   data={BarchartData1}
                   margin={{
@@ -312,6 +315,36 @@ function AdminDashboardMetrics() {
                 </BarChart>
                 </div>
                 <div className='mobile-container'>
+                <BarChart
+                  width={330}
+                  height={300}
+                  data={BarchartData1}
+                  margin={{
+                    top: 30,
+                    right: 0,
+                    left: 0,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray='3 3' />
+                  <Tooltip wrapperStyle={{ top: 0, left: 0 }} />
+                  <Bar dataKey='value' fill='green' barSize={30}>
+                    {BarchartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % 20]} />
+                    ))}
+                  </Bar>
+                  <XAxis
+                    dataKey='name'
+                    style={{ fontSize: "8px", fontWeight: "bold" }}
+                  />
+                  <YAxis
+                    type='number'
+                    style={{ fontSize: "15px", fontWeight: "bold" }}
+                    domain={[0, 10]}
+                  />
+                </BarChart>
+                </div>
+                <div className='mobile-sm-container'>
                 <BarChart
                   width={300}
                   height={300}

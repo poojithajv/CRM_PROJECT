@@ -1,5 +1,6 @@
 import React, { useState , useEffect } from 'react';
 import "./index.css";
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom';
 //import axios from "axios";
 const Offering = () => {
@@ -40,7 +41,7 @@ const Offering = () => {
     })
       .then((response) => {
       if (response.status===200){
-        alert('User registered successfully')
+        toast('User registered successfully')
         window.location.reload()
     }})
       .then((data) => {

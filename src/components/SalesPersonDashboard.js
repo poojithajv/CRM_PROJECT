@@ -132,7 +132,7 @@ catch (error) {
                     ? `${activeClassName} `
                     : "desktop-header-navbar-link"
                 }
-                >Dashboard Metrics</p>
+                onClick={() => navigate('/salesPersonDashboardMetrics')}>Dashboard Metrics</p>
               <p className={
                   activeTab === "allTasks"
                     ? `${activeClassName} `
@@ -175,7 +175,7 @@ catch (error) {
                 onClose={() => setIsPopUpOpen(false)}
               >
                 <ul className="mobile-hamburger-menu">
-                  <li className="header-navbar-link" >Dashboard Metrics</li>
+                  <li className="header-navbar-link" onClick={() => navigate('/salesPersonDashboardMetrics')}>Dashboard Metrics</li>
                   <li className="header-navbar-link" onClick={() => navigate('/salesPersonTasks',{state:salesPersonId})}>My Tasks</li>
                   <li className="header-navbar-link" onClick={() => navigate('/createContact')}>Create Contact</li>
                   <li className="header-navbar-link" onClick={() => navigate('/myInfo',{state:salesPersonId})}>Profile</li>

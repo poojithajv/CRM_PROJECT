@@ -7,6 +7,7 @@ import './index.css'
 
 function AllOffering() {
     const [offeringData,setOfferingData]=useState([])
+    const [offeringList,setOfferingList]=useState([])
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [flooringPrice, setFlooringPrice] = useState("");
@@ -21,6 +22,7 @@ function AllOffering() {
                 api.get('/OfferingController/get_all_offering')
                 .then(res=>{
                     setOfferingData(res.data)
+                    setOfferingList(res.data)
                     console.log(res.data)
                 }).catch(err => console.log(err.message))
             }
@@ -32,7 +34,7 @@ function AllOffering() {
     },[])
 
     const handleFilter = () => {
-      const filtered = data.filter((item) => {
+      const filtered = offeringList.filter((item) => {
         const itemDate = new Date(item.validTillDate);
         const start = new Date(startDate);
         const end = new Date(endDate);
@@ -44,7 +46,7 @@ function AllOffering() {
     };
     const handlePriceFilter = () => {
       const filtered = data.filter((item) => {
-          const itemFlooringPrice = parseFloat(item.flooringPrice);
+          const itemFlooringPrice = parseFloat(item.floorPrice);
           const itemCeilingPrice = parseFloat(item.ceilingPrice);
           return itemFlooringPrice >= parseFloat(flooringPrice) && itemCeilingPrice <= parseFloat(ceilingPrice);
       });
@@ -156,7 +158,7 @@ function AllOffering() {
     const onRowHandleClick=(params)=>{
         setSelectedRow(params.id)
         setDat(params.row)
-        localStorage.setItem('offeringRow',params?.row)
+        localStorage.setItem('offeringRow',JSON.stringify(params?.row))
       }
   return (
         <div className='user-container'>
@@ -205,7 +207,7 @@ function AllOffering() {
         {endDate < startDate && endDate && (
           <p className="error">*End Date Should Be Greater Than Start Date</p>
         )}
-      <div className="test-report-date-filter">
+      {/* <div className="test-report-date-filter">
           <div className="test-report-display-between">
               Floor Price:{"   "}
               <input
@@ -239,7 +241,7 @@ function AllOffering() {
           >
               Filter
           </button>
-      </div>
+      </div> */}
         <div style={{overflowY:'scroll',height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>
