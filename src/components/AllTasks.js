@@ -79,7 +79,7 @@ function AllTasks() {
   console.log(data)
   const filteringRequiredData=(dataa)=>{
     console.log(dataa)
-    const requiredData=dataa.map((item,index)=>({...item,id:index+1,salesPersonName:item?.salesPerson?.user?.userName,assignedManager:item?.assignedManager?.userName,contactName:item?.contactId?.firstName+' '+item?.contactId?.lastName}))
+    const requiredData=dataa.map((item,index)=>({...item,id:index+1,salesPersonName:item?.salesPerson?.user?.userName,assignedManager:item?.assignedManager?.userName,contactName:item?.contactSub?.contactId?.firstName+' '+item?.contactSub?.contactId?.lastName}))
     setData(requiredData)
   }
 
@@ -221,7 +221,7 @@ function AllTasks() {
       //latestStatusByTask(id || selectedRowId);
     };
     const handleChangeContact = async () => {
-    console.log(activeContact, dat.contactId.contactId);
+    //console.log(activeContact, dat.contactId.contactId);
     const apiUrl = `/task/updateTaskByContactId/${
       dat.taskId
     }/contact_${activeContact.slice(-5)}`;
@@ -412,7 +412,7 @@ function AllTasks() {
                 <b>Sales Person : </b> {dat.salesPersonName}
               </p>
               <p>
-                <b>Contact : </b> {dat?.contactId?.firstName+' '+dat?.contactId?.lastName}
+                <b>Contact : </b> {dat?.contactSub?.contactId?.firstName+' '+dat?.contactSub?.contactId?.lastName}
               </p>
               <p>
                 <b>Assigned By : </b> {dat?.assignedManager}
@@ -478,7 +478,7 @@ function AllTasks() {
                           <b>Sales Person :</b> {dat.salesPersonName}
                         </p>
                         <p>
-                          <b>Contact :</b> {dat?.contactId?.firstName+' '+dat?.contactId?.lastName}
+                          <b>Contact :</b> {dat?.contactSub?.contactId?.firstName+' '+dat?.contactSub?.contactId?.lastName}
                         </p>
                         <p>
                           <b>Assigned By :</b> {dat?.assignedManager}
@@ -826,7 +826,7 @@ function AllTasks() {
           </button>
         </div>
       </div> */}
-      <div style={{overflowY:'scroll',height:'400px'}}>
+      <div style={{height:'400px'}}>
           {data.length > 0 ? (
               <div className='table'>
                   <DataGrid
