@@ -58,7 +58,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://crm-made-simple-f8a83a9caed2.herokuapp.com/",
+  "proxy":"http://crm-made-simple-f8a83a9caed2.herokuapp.com/",
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }

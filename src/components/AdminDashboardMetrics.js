@@ -34,6 +34,7 @@ function AdminDashboardMetrics() {
     const [contacts ,SetContacts]   = useState([])
     const [Lost,SetLost]  = useState([])
     const [customers,SetCustomers]  = useState([])
+    const [churnedContacts,SetChurnedContacts] =  useState([])
 
 
     console.log(startDate,endDate)
@@ -42,14 +43,21 @@ function AdminDashboardMetrics() {
       var url  =  `/app/getAllOpportuntiesByDate/${startDate}/${endDate}/opportunity`
       var urldeal =  `/app/getAllOpportuntiesByDate/${startDate}/${endDate}/deal`
       var contactsurl =  `/ContactController/get_all_contact_in_date_range/${startDate}/${endDate}`
-      var losturl =  `/ContactController/get_all_contact_in_date_range_with_status_value/${startDate}/${endDate}/lost`
-      var  customerurl = `/ContactController/get_all_contact_in_date_range_with_status_value/${startDate}/${endDate}/won`
+      var losturl =  `/ContactController/get_all_contact_in_date_range_with_status_type_and_status_value/${startDate}/${endDate}/sales qualified/lost`
+      var churedurl =  `/ContactController/get_all_contact_in_date_range_with_status_type_and_status_value/${startDate}/${endDate}/customer/churned`
+      var  customerurl = `/ContactController/get_all_contact_in_date_range_with_status_type_and_status_value/${startDate}/${endDate}/customer/won`
       api.get(url)
       .then(responseJson => {
           setOpportunities(responseJson.data)
        })
        .catch(error => ({
        }));
+       api.get(churedurl, {
+      }).then(responseJson => {
+        console.log(responseJson.data)
+        SetChurnedContacts(responseJson.data)
+      }).catch(error => ({
+      }));
           api.get(urldeal).then(responseJson => {
           console.log(responseJson.data)
           SetDeal(responseJson.data)
@@ -74,11 +82,18 @@ function AdminDashboardMetrics() {
     const handleFilter =  () => {
       var url  =  `/app/getAllOpportuntiesByDate/${startDate}/${endDate}/opportunity`
       var urldeal =  `/app/getAllOpportuntiesByDate/${startDate}/${endDate}/deal`
-      var losturl =  `/ContactController/get_all_contact_in_date_range_with_status_value/${startDate}/${endDate}/lost`
-      var  customerurl = `/ContactController/get_all_contact_in_date_range_with_status_value/${startDate}/${endDate}/won`
+      var losturl =  `/ContactController/get_all_contact_in_date_range_with_status_type_and_status_value/${startDate}/${endDate}/sales qualified/lost`
+      var churedurl =  `/ContactController/get_all_contact_in_date_range_with_status_type_and_status_value/${startDate}/${endDate}/customer/churned`
+      var  customerurl = `/ContactController/get_all_contact_in_date_range_with_status_type_and_status_value/${startDate}/${endDate}/customer/won`
       var contactsurl =  `/ContactController/get_all_contact_in_date_range/${startDate}/${endDate}`
       api.get(url).then(responseJson => {
           setOpportunities(responseJson.data)
+          }).catch(error => ({
+          }));
+          api.get(churedurl, {
+          }).then(responseJson => {
+            console.log(responseJson.data)
+            SetChurnedContacts(responseJson.data)
           }).catch(error => ({
           }));
           api.get(urldeal).then(responseJson => {
@@ -107,9 +122,10 @@ function AdminDashboardMetrics() {
         // const year = yearsData[1];
       const opor =  opportunities.length
         const deals =  deal.length
-        let sum = 0
+        let sum = 0,sumDeal=0
         const agr =  opportunities.map((item,index)=> sum += item.opportunitySize)
-        const inprogress =  contacts.length - (Lost.length + customers.length)
+        const ab=deal.map((item,index)=>sumDeal+=item.opportunitySize)
+        const inprogress =  contacts.length - (Lost.length + churnedContacts.length + customers.length)
 
       const BarchartData = [
         {
@@ -123,6 +139,10 @@ function AdminDashboardMetrics() {
         {
           name:"opportunitySize",
           value:sum
+        },
+        {
+          name:"DealSize",
+          value:sumDeal
         }
       ];
       const BarchartData1 = [
@@ -132,7 +152,7 @@ function AdminDashboardMetrics() {
         },
         {
           name: "LostContacts",
-          value:Lost.length,
+          value:Lost.length+churnedContacts.length,
         },
         {
           name:"Customers",

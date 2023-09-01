@@ -83,7 +83,7 @@ const Res = () => {
   const [dueDate, setDueDate] = useState(null);
   const getAllUserExceptSalespersons = () => {
     const apiUrl = "/api/getAllUsers";
-    const authToken = JSON.parse(localStorage.getItem("jwt"));
+    const authToken = localStorage.getItem("token");
     // Replace this with your actual authentication token
     console.log(activeUser);
     fetch(apiUrl, {
@@ -113,7 +113,7 @@ const Res = () => {
   };
   const getAllContacts = () => {
     const apiUrl = "/ContactController/get_all_contact";
-    const authToken = JSON.parse(localStorage.getItem("jwt"));
+    const authToken = localStorage.getItem("token");
     // Replace this with your actual authentication token
     fetch(apiUrl, {
       method: "GET",
@@ -138,7 +138,7 @@ const Res = () => {
   };
   const getAllSalesPerson = () => {
     const apiUrl = "/app/getAllSalesPerson";
-    const authToken = JSON.parse(localStorage.getItem("jwt"));
+    const authToken = localStorage.getItem("token");
     // Replace this with your actual authentication token
     fetch(apiUrl, {
       method: "GET",
@@ -162,7 +162,7 @@ const Res = () => {
   };
   const getAllOffers = () => {
     const apiUrl = "/OfferingController/get_all_offering";
-    const authToken = JSON.parse(localStorage.getItem("jwt"));
+    const authToken = localStorage.getItem("token");
     // Replace this with your actual authentication token
     fetch(apiUrl, {
       method: "GET",
@@ -211,7 +211,7 @@ const Res = () => {
     const apiUrl = `/task/createTask/${selectedSalesperson}/user_${activeUser.slice(
       -4
     )}/${selectedContact}/${selectedOffering}`;
-    const authToken = JSON.parse(localStorage.getItem("jwt"));
+    const authToken = localStorage.getItem("token");
     // Replace this with your actual authentication token
     fetch(apiUrl, {
       method: "POST",

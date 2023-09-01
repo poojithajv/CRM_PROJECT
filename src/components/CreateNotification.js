@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import api from './../util/api'
 import "./index.css";
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 const Notification = () => {
     const dat={
@@ -24,7 +25,7 @@ const Notification = () => {
     const userResponse = await api.post(`/app/notifications/createnotification`, newNotification)
     console.log(userResponse)
     if (userResponse.status === 201) {
-        alert('Notification Created Successfully')
+        toast('Notification Created Successfully')
         window.location.reload()
     }
 }
@@ -112,18 +113,33 @@ const handleSendNotification =()=>{
                       <label className="form-label" htmlFor="notificationTemplate">
                             Notification Template<span>*</span>
                                     </label>
-                                    <select value={formData.notificationTemplate} className='form-select' name='notificationTemplate' id='notificationTemplate' onChange={handleChange}>
-                                      <option value='' hidden>Select</option>
-                                      {
-                                        notificationTemplates && notificationTemplates.map((notification,index)=>{
+                                    {formData.notificationTemplate ? (
+                                            <input
+                                              className="form-control"
+                                              type="text"
+                                              name="notificationTemplate"
+                                              value={formData.notificationTemplate}
+                                              onChange={handleChange}
+                                              placeholder={formData.notificationTemplate}
+                                            />
+                                          ) : (
+                                            <select
+                                              value={formData.notificationTemplate}
+                                              className='form-select'
+                                              name='notificationTemplate'
+                                              id='notificationTemplate'
+                                              onChange={handleChange}
+                                            >
+                                              <option value='' hidden>Select</option>
+                                              {notificationTemplates && notificationTemplates.map((notification,index)=>{
                                           return(
                                             <option key={index} value={notification.notificationTemplate
                                             }>{notification.notificationTemplate
                                             }</option>
                                           )
-                                        })
-                                      }
-                                    </select>
+                                        })}
+                                          </select>
+                                        )}
                       </div> 
                     </div>
                     <div className="col-md-6 mt-3">

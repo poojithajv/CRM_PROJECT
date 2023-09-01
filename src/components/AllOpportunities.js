@@ -72,8 +72,8 @@ function AllOpportunities() {
       }
     }
 
-    const data=opportunitiesData.map((item,index)=>({...item,id:index+1,contactName:item?.contact?.firstName+item?.contact?.lastName,opportunityType:item?.status?.statusValue,
-    contactEmail:item?.contact?.email,offeringName:item?.offering?.offeringName,offeringValidDate:item?.offering?.validTillDate}))
+    const data=opportunitiesData.map((item,index)=>({...item,id:index+1,contactName:item?.contactSub?.contactId?.firstName+' '+item?.contactSub?.contactId?.lastName,opportunityType:item?.status?.statusValue,
+    contactEmail:item?.contactSub?.contactId?.email,offeringName:item?.offering?.offeringName,offeringValidDate:item?.offering?.validTillDate}))
     console.log(data)
 
     const columns = [
@@ -234,7 +234,7 @@ function AllOpportunities() {
                     }
                   </datalist>
         </div> */}
-        <div style={{overflowY:'scroll',height:'400px'}}>
+        <div style={{height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>
                     <DataGrid

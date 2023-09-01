@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import toast from "react-hot-toast";
 import "./index.css";
+import { Navigate } from "react-router-dom";
 function UpdateTask(props) {
   const [validated, setValidated] = useState(false);
   const { selectedItem, AllStatus } = props;
@@ -78,6 +79,7 @@ function UpdateTask(props) {
       .then((response) => response.json())
       .then((data) => {
         toast.success("Task Updated");
+        window.location.reload()
       })
       .catch((error) => {
         // Handle any error that occurred during the fetch request

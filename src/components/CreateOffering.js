@@ -41,7 +41,7 @@ const Offering = () => {
     })
       .then((response) => {
       if (response.status===200){
-        toast('User registered successfully')
+        toast('Offering Created successfully')
         window.location.reload()
     }})
       .then((data) => {
@@ -187,7 +187,7 @@ const handleSendOffer =()=>{
                         onChange={handleChange}
                         placeholder="Cost Type" required>
                         <option value={""}>Select Currency</option>
-                        <option value={"INR"}>INR</option>
+                        <option value={"INR"}>INR "Indian Rupee"</option>
                         <option value={"USD"}>USD "US Dollar"</option>
                         <option value={"EUR"}>EUR "EURO"</option>
                         <option value={"AUD"}>AUD "Australia Dollar"</option>

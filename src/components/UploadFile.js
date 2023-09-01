@@ -64,6 +64,7 @@ function App() {
           <button type="submit" className="btn btn-success" style={{ marginTop: '5px' }}>
             Upload
           </button>
+          <button type='button' className="btn btn-primary" style={{ marginTop: '5px' }} onClick={()=>navigate('/allContacts')} >Back</button>
         </form>
       </div>
     </div>

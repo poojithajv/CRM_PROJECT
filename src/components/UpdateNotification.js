@@ -123,18 +123,33 @@ getNotificationTemplate()
                       <label className="form-label" htmlFor="notificationTemplate">
                             Notification Template<span>*</span>
                                     </label>
-                                    <select value={formData.notificationTemplate} className='form-select' name='notificationTemplate' id='notificationTemplate' onChange={handleChange}>
-                                      <option value='' hidden>Select</option>
-                                      {
-                                        notificationTemplates && notificationTemplates.map((notification,index)=>{
+                                    {formData.notificationTemplate ? (
+                                            <input
+                                              className="form-control"
+                                              type="text"
+                                              name="notificationTemplate"
+                                              value={formData.notificationTemplate}
+                                              onChange={handleChange}
+                                              placeholder={formData.notificationTemplate}
+                                            />
+                                          ) : (
+                                            <select
+                                              value={formData.notificationTemplate}
+                                              className='form-select'
+                                              name='notificationTemplate'
+                                              id='notificationTemplate'
+                                              onChange={handleChange}
+                                            >
+                                              <option value='' hidden>Select</option>
+                                              {notificationTemplates && notificationTemplates.map((notification,index)=>{
                                           return(
                                             <option key={index} value={notification.notificationTemplate
                                             }>{notification.notificationTemplate
                                             }</option>
                                           )
-                                        })
-                                      }
-                                    </select>
+                                        })}
+                                          </select>
+                                        )}
                       </div> 
                     </div>
                     <div className="col-md-6 mt-3">

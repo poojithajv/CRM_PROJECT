@@ -234,7 +234,7 @@ function AllContacts() {
             </button>
           </div>
         </div>  */}
-        <div style={{overflowY:'scroll',height:'400px'}}>
+        <div style={{height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>
                     <DataGrid

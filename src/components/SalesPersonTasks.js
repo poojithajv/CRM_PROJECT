@@ -164,7 +164,7 @@ function SalesPersonTasks() {
     };
     const filteringRequiredData=(dataa)=>{
       console.log(dataa)
-      const requiredData=dataa.map((item,index)=>({...item,id:index+1,salesPersonName:item?.salesPerson?.user?.userName,assignedManager:item?.assignedManager?.userName,contactName:item?.contactId?.firstName+item?.contactId?.lastName}))
+      const requiredData=dataa.map((item,index)=>({...item,id:index+1,salesPersonName:item?.salesPerson?.user?.userName,assignedManager:item?.assignedManager?.userName,contactName:item?.contactSub?.contactId?.firstName+' '+item?.contactSub?.contactId?.lastName}))
       setData(requiredData)
       console.log(requiredData)
     }
@@ -330,7 +330,7 @@ function SalesPersonTasks() {
   return (
     <div>
       <SalesPersonDashboard />
-        <div className='user-container'>
+        <div className=''>
         <div className='headings'>
             <h1 className='main-heading'>All Tasks</h1>
             <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
@@ -350,7 +350,7 @@ function SalesPersonTasks() {
                 <b>Sales Person :</b> {dat.salesPersonName}
               </p>
               <p>
-                <b>Contact :</b> {dat?.contactId?.firstName+' '+dat?.contactId?.lastName}
+                <b>Contact :</b> {dat?.contactSub?.contactId?.firstName+' '+dat?.contactSub?.contactId?.lastName}
               </p>
               <p>
                 <b>Assigned By :</b> {dat?.assignedManager}
@@ -401,7 +401,7 @@ function SalesPersonTasks() {
                           <b>Sales Person :</b> {dat.salesPersonName}
                         </p>
                         <p>
-                          <b>Contact :</b> {dat?.contactId?.firstName+' '+dat?.contactId?.lastName}
+                          <b>Contact :</b> {dat?.contactSub?.contactId?.firstName+' '+dat?.contactSub?.contactId?.lastName}
                         </p>
                         <p>
                           <b>Assigned By :</b> {dat?.assignedManager}
@@ -538,7 +538,7 @@ function SalesPersonTasks() {
       {endDate < startDate && endDate && (
         <p className="error">*End Date Should Be Greater Than Start Date</p>
       )}
-        <div style={{overflowY:'auto',height:'400px'}}>
+        <div style={{width:'90%',height:'400px',margin:'auto'}}>
             {data.length > 0 ? (
                 <div className='table'>
                     <DataGrid

@@ -183,7 +183,7 @@ return (
                         <input className="form-control" type="number" id="mobileNumber" name="mobileNumber" value={formStatus.mobileNumber} onChange={handleChange} placeholder="Mobile Number" required />
                       </div>
                       <div className="form-group mt-3">
-                        <label className="form-label" htmlFor="contactDesignation"> Contact Destination </label>
+                        <label className="form-label" htmlFor="contactDesignation"> Contact Designation </label>
                         <input className="form-control" type="text" id="contactDesignation" name="contactDesignation" value={formStatus.contactDesignation} onChange={handleChange} placeholder="Contact Designation" />
                       </div>
                     </div>

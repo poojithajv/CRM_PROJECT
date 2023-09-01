@@ -103,6 +103,58 @@ function AllTasks() {
             console.log(error.message);
           }
     }
+    const getAllSalesPersonByRole = async () => {
+      const apiUrl = `/app/getAllSalesPerson`;
+      const authToken = localStorage.getItem("token");
+      try {
+        const response = await fetch(apiUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        // console.log(data, "sppppppppppppppppppppppp");
+        let salespersonss = data.map(
+          (each) => `${each.user.userName}-${each.salespersonId.slice(-4)}`
+        );
+        setAllSalespersons(salespersonss, "sppp");
+        setError(null); // Clear any previous errors if the request succeeds
+      } catch (error) {
+        // Handle any error that occurred during the fetch request
+        console.error("Error:", error);
+        setError("Failed to fetch tasks. Please try again later.");
+      }
+    };
+  const getAllContacts = () => {
+      const apiUrl = "/ContactController/get_all_contact";
+      const authToken = localStorage.getItem("token");
+      // Replace this with your actual authentication token
+      fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`, // Adding the authentication header
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response from the server here
+          const contactNames = data.map(
+            (each) => `${each?.firstName}-${each.contactId.slice(-5)}`
+          );
+          //console.log(data);
+          setAllContact(contactNames);
+        })
+        .catch((error) => {
+          // Handle any error that occurred during the fetch request
+          console.error("Error:", error);
+        });
+    };
     const getAllActiveStatus = async () => {
       const apiUrl = `/app/statuses/Task_Status/Task`;
       const authToken = localStorage.getItem("token");
@@ -131,6 +183,8 @@ function AllTasks() {
 
     useEffect(()=>{
       getAllActiveStatus()
+      getAllSalesPersonByRole()
+      getAllContacts()
     },[])
     
     const handleFilter = () => {

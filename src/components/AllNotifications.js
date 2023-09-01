@@ -1,6 +1,7 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Navbar, Nav } from "react-bootstrap";
+import axios from 'axios'
 import "./index.css";
 import api from './../util/api'
 import { useEffect , useState } from "react";
@@ -11,6 +12,7 @@ export default function HomeNotification() {
     const [selectedRow,setSelectedRow]=useState([])
     const [dat,setDat]=useState([])
     useEffect(()=>{
+      const token=localStorage.getItem('token')
         try{
             const fetchUsers=()=>{
                 api.get('/app/notifications/getnotifications')
@@ -103,7 +105,7 @@ export default function HomeNotification() {
             <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
             </div>
         </div>
-        <div style={{overflowY:'scroll',height:'400px'}}>
+        <div style={{height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>
                     <DataGrid

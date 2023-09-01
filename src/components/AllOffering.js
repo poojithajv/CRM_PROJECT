@@ -186,7 +186,7 @@ function AllOffering() {
               // value={endDate}
               className="test-report-date-input"
               onChange={(e) => setEndDate(new Date(e.target.value))}
-              max={new Date().toISOString().split("T")[0]}
+              // max={new Date().toISOString().split("T")[0]}
               style={{ marginLeft: "5px" }}
             />
           </div>
@@ -242,7 +242,7 @@ function AllOffering() {
               Filter
           </button>
       </div> */}
-        <div style={{overflowY:'scroll',height:'400px'}}>
+        <div style={{height:'400px'}}>
             {data.length > 0 ? (
                 <div className='table'>
                     <DataGrid

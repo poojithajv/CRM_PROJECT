@@ -55,7 +55,7 @@ const OpportunitySubList = () => {
      },
      {
        field: "opportunityStatusDate",
-       headerName: "Opportunity Size",
+       headerName: "Opportunity Status Date",
        width: 160,
        headerClassName: "table-header",
        cellClassName: "table-cell",
@@ -138,10 +138,10 @@ const OpportunitySubList = () => {
                 <div className="col-md-6"><h5><span className='text-secondary'>Opp Name : </span>{dat.opportunityName}</h5>
                 </div>
                 <div className="col-md-6"><h5><span className='text-secondary'>Opp Size : </span>{dat.opportunitySize}</h5></div>
-                <div className="col-md-6"><h5><span className='text-secondary'>Contact Name : </span>{dat.contact.firstName} {dat.contact.lastName}</h5></div>
-                <div className="col-md-6"><h5><span className='text-secondary'>Contact Email : </span>{dat.contact.email}</h5></div>
-                <div className="col-md-6"><h5><span className='text-secondary'>Offering Name : </span>{dat.offering.offeringName}</h5></div>
-                <div className="col-md-6"><h5><span className='text-secondary'>Offering Validity : </span>{dat.offering.validTillDate}</h5></div>
+                <div className="col-md-6"><h5><span className='text-secondary'>Contact Name : </span>{dat?.contactSub?.contactId?.firstName} {dat?.contactSub?.contactId?.lastName}</h5></div>
+                <div className="col-md-6"><h5><span className='text-secondary'>Contact Email : </span>{dat?.contactSub?.contactId?.email}</h5></div>
+                <div className="col-md-6"><h5><span className='text-secondary'>Offering Name : </span>{dat?.offering?.offeringName}</h5></div>
+                <div className="col-md-6"><h5><span className='text-secondary'>Offering Validity : </span>{dat?.offering?.validTillDate}</h5></div>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ const OpportunitySubList = () => {
       <div className='headings'>
           <h1 className='main-heading'>Sub Opportunities List</h1>
       </div>
-      <div style={{overflowY:'scroll',height:'400px'}}>
+      <div style={{height:'400px'}}>
           {data?.length > 0 ? (
               <div className='table'>
                   <DataGrid
