@@ -1,0 +1,93 @@
+.dashboard-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.header-container{
+    padding-left: 30px;
+  background-color: #1d1a69;
+  color: white;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 15px;
+  padding-left: 15px;
+  border: 1px solid black;
+}
+.nav-container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .desktop-header-navbar-container{
+    display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+}
+.desktop-header-navbar-link{
+    position: relative;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 15px;
+    transition: border-color 0.66s ease-out, font-size 0.3s ease-out;
+  }
+  .mobile-header-navbar-container{
+    display: none;
+}
+@media (max-width: 1024px) {
+    .desktop-header-navbar-container {
+      display: none;
+    }
+    .mobile-header-navbar-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+    }
+    .hamburger-btn {
+      color: white;
+      border: none;
+      background-color: transparent;
+    }
+  
+    .mobile-hamburger-menu {
+      list-style-type: none;
+    }
+  }
+  .header-navbar-link {
+    color: #1d1a69;
+    width: 220px;
+    height: 35px;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-left: 0;
+    transition: border-color 0.66s ease-out, font-size 0.3s ease-out;
+  }
+  @media screen and (max-width:300px){
+    .header-navbar-link{
+        font-size: 16px;
+    }
+  }
+  .header-navbar-link:hover {
+    background-position: 100% 100%;
+    transform: scale(1.3);
+    transition: transform 1s;
+    color: #aed25d;
+  }
+  .activeTab {
+    color: #aed25d;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    margin-right: 20px;
+    transition: border-color 0.66s ease-out, font-size 0.3s ease-out;
+  }

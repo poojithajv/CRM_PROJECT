@@ -1,0 +1,28 @@
+.header-container{
+    padding-left: 30px;
+  background-color: #1d1a69;
+  color: white;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 15px;
+  padding-left: 15px;
+  border: 1px solid black;
+}
+.home-container{
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .button{
+    background-color: #1d1a69;
+    color: #ffffff;
+    width:100px;
+    height:40px;
+    border: none;
+    cursor: pointer;
+  }

@@ -1,0 +1,34 @@
+.users-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height:90vh;
+    overflow-y: scroll;
+  }
+  @media screen and (max-width:300px){
+    .users-container{
+      height:90%;
+      overflow-y: scroll;
+    }
+  }
+  .buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .salesPersonbtn{
+    width:200px;
+    height:40px;
+    color: #ffffff;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+@media screen and (max-width:400px){
+    .salesPersonbtn{
+      width:150px;
+      font-size: 13px;
+    }
+}

@@ -1,0 +1,52 @@
+.salesPersonbtn{
+    width:200px;
+    height:40px;
+    color: #ffffff;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+@media screen and (max-width:400px){
+    .salesPersonbtn{
+      width:150px;
+      font-size: 13px;
+    }
+}
+.user-container{
+    height:80vh;
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+}
+.sub-btn{
+    align-self: flex-end;
+    margin-bottom: 10px;
+  }
+  .main-heading1{
+    font-size: 35px;
+    margin-bottom: 20px;
+  }
+  @media screen and (max-width:768px){
+    .main-heading1{
+      font-size: 20px;
+    }
+  }
+  .table{
+    background-color: #ffffff;
+    width:100%;
+}
+.users-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height:90vh;
+    overflow-y: scroll;
+  }
+  @media screen and (max-width:300px){
+    .users-container{
+      height:90%;
+      overflow-y: scroll;
+    }
+  }

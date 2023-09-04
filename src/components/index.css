@@ -176,12 +176,12 @@
 }
 .desktop-header-navbar-link{
   position: relative;
-    color: white;
+  color: white;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 20px;
-  margin-bottom: 25px;
-  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-right: 15px;
   transition: border-color 0.66s ease-out, font-size 0.3s ease-out;
 }
 .desktop-header-list{
