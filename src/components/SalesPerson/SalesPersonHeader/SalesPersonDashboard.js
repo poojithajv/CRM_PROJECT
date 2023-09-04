@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate,useLocation} from 'react-router-dom'
 import {RiLogoutCircleRLine} from 'react-icons/ri'
 import {IoIosContact} from 'react-icons/io'
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -9,8 +9,8 @@ import logo from '../../Images/kloc-white-logo.png'
 import api from '../../../util/api'
 import '../../Admin&Manager/Header/Dashboard.css'
 
-const activeClassName = "activeTab";
 function SalesPersonDashboard() {
+  const location=useLocation()
   const [cursor, setCursor] = useState('default');
   const [isdash,setIsDash]=useState(false)
   const [isDashboard,setIsDashboard]=useState(false)
@@ -76,37 +76,6 @@ catch (error) {
       return 'default';
     });
   }
-  // const handleDashboard = () => {
-  //   setIsDashboard(true)
-  //   setIsInfo(false)
-  //   setIsAllTasks(false)
-  //   setIsConatctInfo(false)
-  //   setIsCreateContact(false)
-  //   setActiveTab("dashboard");
-  // };
-  // const handleInfo=()=>{
-  //   setIsDashboard(false)
-  //   setIsInfo(true)
-  //   setIsAllTasks(false)
-  //   setIsConatctInfo(false)
-  //   setIsCreateContact(false)
-  //   setActiveTab("info");
-  // }
-  // const handleAllTasks = () => {
-  //   setIsDashboard(false)
-  //   setIsAllTasks(true)
-  //   setIsConatctInfo(false)
-  //   setIsCreateContact(false)
-  //   setActiveTab("allTasks");
-  // };
-  // const handleCreateContact=()=>{
-  //   setIsDashboard(false)
-  //   setIsInfo(false)
-  //   setIsAllTasks(false)
-  //   setIsConatctInfo(false)
-  //   setIsCreateContact(true)
-  //   setActiveTab("createContact");
-  // }
   return (
     <div onClick={changeCursor} style={{ cursor: cursor }} className='dashboard-container'>
       {isdash ? (
@@ -125,26 +94,26 @@ catch (error) {
             </div>
             <div className="desktop-header-navbar-container">
               <p className={
-                  activeTab === "dashboard"
-                    ? `${activeClassName} `
+                  location.pathname==='/salesPersonDashboardMetrics'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 onClick={() => navigate('/salesPersonDashboardMetrics')}>Dashboard Metrics</p>
               <p className={
-                  activeTab === "allTasks"
-                    ? `${activeClassName} `
+                  location.pathname==='/salesPersonTasks'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 onClick={()=>navigate('/salesPersonTasks',{state:salesPersonId})}>All Tasks</p>
                 <p className={
-                  activeTab === "createContact"
-                    ? `${activeClassName} `
+                  location.pathname==='/createContact'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 onClick={()=>navigate('/createContact')}>Create Contact</p>
                 <p className={
-                  activeTab === "info"
-                    ? `${activeClassName} `
+                  location.pathname==='/myInfo'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 onClick={()=>navigate('/myInfo',{state:salesPersonId})}><IoIosContact  size={20}/></p>

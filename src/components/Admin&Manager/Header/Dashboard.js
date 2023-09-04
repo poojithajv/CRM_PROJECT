@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useRef} from 'react'
 import {RiLogoutCircleRLine} from 'react-icons/ri'
 import {IoIosContact} from 'react-icons/io'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate,useLocation} from 'react-router-dom'
 import api from '../../../util/api'
 import { GiHamburgerMenu } from "react-icons/gi";
 import Popup from "reactjs-popup";
@@ -12,6 +12,7 @@ import './Dashboard.css'
 const activeClassName = "activeTab";
 function Dashboard() {
   const dropRef=useRef()
+  const location=useLocation()
   const [cursor, setCursor] = useState('default');
   const [proData,setProData]=useState([])
   const [profile,setProfile]=useState(false)
@@ -240,82 +241,77 @@ function Dashboard() {
             </div>
             <div className="desktop-header-navbar-container">
               <p onClick={()=>navigate('/adminDashboardMetrics')} className={
-                  activeTab === "dashboard"
-                    ? `${activeClassName} `
+                  location.pathname==='/adminDashboardMetrics'
+                    ? 'activeClassName'
                     : "desktop-header-navbar-link"
                 }
                 >Dashboard Metrics</p>
               <p className={
-                  activeTab === "user"
-                    ? `${activeClassName} `
+                  location.pathname==='/allUsers'
+                    ? 'activeClassName'
                     : "desktop-header-navbar-link"
                 }
                 onClick={()=>navigate('/allUsers')}>User</p>
-                <p className={
-                  activeTab === "salesPerson"
-                    ? `${activeClassName} `
+                <p onClick={()=>navigate('/allSalesPersons')}
+                className={
+                  location.pathname==='/allSalesPersons'
+                    ? 'activeClassName'
                     : "desktop-header-navbar-link"
-                }
-                onClick={()=>navigate('/allSalesPersons')}>SalesPerson</p>
+                }>SalesPerson</p>
               <p onClick={()=>navigate('/allContacts')} className={
-                  activeTab === "contact"
-                    ? `${activeClassName} `
+                  location.pathname==='/allContacts'
+                    ? 'activeClassName'
                     : "desktop-header-navbar-link"
                 }
                 >Contact</p>
                 <p onClick={()=>navigate('/allVendorsPartners')} className={
-                  activeTab === "contact"
-                    ? `${activeClassName} `
+                  location.pathname==='/allVendorsPartners'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 >Vendors/Partners</p>
               <p onClick={()=>navigate('/allTasks')} className={
-                  activeTab === "task"
-                    ? `${activeClassName} `
+                  location.pathname==='/allTasks'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 >Task</p>
               <p onClick={()=>navigate('/allOfferings')} className={
-                  activeTab === "offering"
-                    ? `${activeClassName} `
+                  location.pathname==='/allOfferings'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 >Offering</p>
               <p className={
-                  activeTab === "opportunity"
-                    ? `${activeClassName} `
+                  location.pathname==='/allOpportunities'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 onClick={()=>navigate('/allOpportunities')}>Opportunity</p>
               <p onClick={()=>navigate('/allNotifications')} className={
-                  activeTab === "notification"
-                    ? `${activeClassName} `
+                  location.pathname==='/allNotifications'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 >Notification</p>
               <p onClick={()=>navigate('/allCustomers')} className={
-                  activeTab === "customer"
-                    ? `${activeClassName} `
+                  location.pathname==='/allCustomers'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 >Customer</p>
                 <p onClick={()=>navigate('/reports')} className={
-                  activeTab === "customer"
-                    ? `${activeClassName} `
+                  location.pathname==='/reports'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }
                 >Report</p>
-              {/* <p className='desktop-header-navbar-link' >Logout</p> */}
               <p onClick={()=>navigate('/profileModule',{state:profileData})} className={
-                  activeTab === "profile"
-                    ? `${activeClassName}`
+                  location.pathname==='/profileModule'
+                    ? `activeClassName`
                     : "desktop-header-navbar-link"
                 }><IoIosContact  size={20}/></p>
-                <p onClick={handleLogout} className={
-                  activeTab === "logout"
-                    ? `${activeClassName}`
-                    : "desktop-header-navbar-link"
-                }><RiLogoutCircleRLine  size={20}/></p>
+                <p onClick={handleLogout} className="desktop-header-navbar-link"><RiLogoutCircleRLine  size={20}/></p>
             </div>
             {/* nav header for mobile  with Logo and components Dashboard, Assessments, Test Reports, Student Reports and Sign Out */}
             <div className="mobile-header-navbar-container">
