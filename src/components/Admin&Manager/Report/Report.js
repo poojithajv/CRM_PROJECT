@@ -20,8 +20,8 @@ function Report() {
       <Dashboard />
     <div className='users-container'>
       <div className='buttons'>
-        <button style={{backgroundColor:'#1d1a69'}} className='salesPersonbtn' onClick={handleIsCustomerReport}>Customer Report</button>
-        <button style={{backgroundColor:'lightgray',color:'#010000'}} className='salesPersonbtn' onClick={handleIsSalesPersonReport}>SalesPerson Report</button>
+        <button style={{backgroundColor:'#1d1a69',height:'60px'}} className='salesPersonbtn' onClick={handleIsCustomerReport}>Customer Report</button>
+        <button style={{backgroundColor:'lightgray',height:'60px',color:'#010000'}} className='salesPersonbtn' onClick={handleIsSalesPersonReport}>SalesPerson Report</button>
       </div>
       {isCustomerReport && (
         <CustomerReport />

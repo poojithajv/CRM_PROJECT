@@ -173,7 +173,7 @@ function AllVendorsPartners() {
 
    const onRowHandleClick=(params)=>{
     setSelectedRow(params.id)
-    setContactId(params?.row?.contactId)
+    setContactId(params?.row?.vendorPartnerId)
     console.log(JSON.stringify(params.row))
     localStorage.setItem('vendorRow',JSON.stringify(params.row))
   }
@@ -182,7 +182,7 @@ function AllVendorsPartners() {
     <div className='user-container'>
         <div className='vendor-headings'>
             <h1 className='main-heading'>All Vendors/Partners</h1>
-            <button onClick={deleteHandler}>Delete</button>
+            <button className='deletebtn' onClick={deleteHandler}>Delete</button>
         </div>
         <div style={{height:'400px'}}>
             {data.length > 0 ? (

@@ -12,8 +12,8 @@ function VendorPartnerModule() {
         setIsUpdateVendorPartner(false)
       }
       const handleUpdateVendorPartner=()=>{
-        setIsCreateVendorPartner(true)
-        setIsUpdateVendorPartner(false)
+        setIsCreateVendorPartner(false)
+        setIsUpdateVendorPartner(true)
       }
   return (
     <div>

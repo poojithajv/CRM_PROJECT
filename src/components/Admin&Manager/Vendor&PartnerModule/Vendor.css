@@ -1,0 +1,52 @@
+.salesPersonbtn{
+    width:200px;
+    height:40px;
+    color: #ffffff;
+    margin-right: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+@media screen and (max-width:400px){
+    .salesPersonbtn{
+      width:150px;
+      font-size: 13px;
+    }
+}
+.user-container{
+    height:80vh;
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+}
+.vendor-headings{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: #ffffff;
+}
+@media  screen and (max-width:400px) {
+    .vendor-headings{
+        flex-direction: column;
+    }
+    .deletebtn{
+        margin-bottom: 10px;
+    }
+}
+.main-heading{
+    font-size: 35px;
+    text-decoration: underline;
+    color: rgb(41, 195, 218);
+    margin-bottom: 20px;
+}
+@media screen and (max-width:768px){
+    .main-heading{
+      font-size: 25px;
+    }
+}
+.table{
+    background-color: #ffffff;
+    width:100%;
+}

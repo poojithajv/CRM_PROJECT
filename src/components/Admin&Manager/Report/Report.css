@@ -1,0 +1,52 @@
+.date-filter{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+    justify-content: center;
+}
+.display-between{
+    display: flex;
+    flex-direction: row;
+    margin-right: 15px;
+}
+.date-input{
+    width:200px;
+}
+.report-card{
+    width:30%;
+    padding: 10px;
+    box-shadow: 3px 3px 3px #010000;
+}
+@media screen and (max-width:600px){
+    .report-card{
+        width:80%;
+    }
+}
+.customer-report{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.select-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.select{
+    margin-top: 10px;
+    width:15vw;
+    height:35px;
+    border: 1px solid #010000;
+}
+.icon{
+    margin-top: 9px;
+    height:36px;
+}
+@media screen and (max-width:500px) {
+    .select{
+        width:40vw;
+    }
+}
